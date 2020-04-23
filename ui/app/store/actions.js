@@ -591,12 +591,14 @@ export function signTypedMsg (msgData) {
 }
 
 export function signTx (txData) {
-  return (dispatch) => {
-    global.ethQuery.sendTransaction(txData, (err) => {
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      }
-    })
+  return async (dispatch) => {
+    try {
+      await pify(global.ethQuery.sendTransaction).call(global.ethQuery, txData)
+    } catch (error) {
+      dispatch(displayWarning(error.message))
+      dispatch(showConfTxPage())
+      return
+    }
     dispatch(showConfTxPage())
   }
 }
