@@ -1966,19 +1966,20 @@ export function setUseBlockie (val) {
 }
 
 export function setUseNonceField (val) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication())
     log.debug(`background.setUseNonceField`)
-    background.setUseNonceField(val, (err) => {
+    try {
+      await promisifiedBackground.setUseNonceField(val)
+    } catch (error) {
       dispatch(hideLoadingIndication())
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      }
-    })
+      return dispatch(displayWarning(error.message))
+    }
     dispatch({
       type: actionConstants.SET_USE_NONCEFIELD,
       value: val,
     })
+    dispatch(hideLoadingIndication())
   }
 }
 
