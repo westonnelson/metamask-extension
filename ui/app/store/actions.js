@@ -1947,19 +1947,21 @@ export function setMetaMetricsSendCount (val) {
 }
 
 export function setUseBlockie (val) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication())
     log.debug(`background.setUseBlockie`)
-    background.setUseBlockie(val, (err) => {
+
+    try {
+      await promisifiedBackground.setUseBlockie(val)
+    } catch (error) {
       dispatch(hideLoadingIndication())
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      }
-    })
+      return dispatch(displayWarning(error.message))
+    }
     dispatch({
       type: actionConstants.SET_USE_BLOCKIE,
       value: val,
     })
+    dispatch(hideLoadingIndication())
   }
 }
 
