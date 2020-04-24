@@ -1202,21 +1202,24 @@ export function setSelectedAddress (address) {
 }
 
 export function showAccountDetail (address) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication())
     log.debug(`background.setSelectedAddress`)
-    background.setSelectedAddress(address, (err, tokens) => {
+
+    let tokens
+    try {
+      tokens = await promisifiedBackground.setSelectedAddress(address)
+    } catch (error) {
       dispatch(hideLoadingIndication())
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      }
-      dispatch(updateTokens(tokens))
-      dispatch({
-        type: actionConstants.SHOW_ACCOUNT_DETAIL,
-        value: address,
-      })
-      dispatch(setSelectedToken())
+      return dispatch(displayWarning(error.message))
+    }
+    dispatch(hideLoadingIndication())
+    dispatch(updateTokens(tokens))
+    dispatch({
+      type: actionConstants.SHOW_ACCOUNT_DETAIL,
+      value: address,
     })
+    dispatch(setSelectedToken())
   }
 }
 
