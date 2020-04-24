@@ -1453,19 +1453,19 @@ export function createRetryTransaction (txId, customGasPrice, customGasLimit) {
 //
 
 export function setProviderType (type) {
-  return (dispatch, getState) => {
+  return async (dispatch, getState) => {
     const { type: currentProviderType } = getState().metamask.provider
     log.debug(`background.setProviderType`, type)
-    background.setProviderType(type, (err) => {
-      if (err) {
-        log.error(err)
-        return dispatch(displayWarning('Had a problem changing networks!'))
-      }
-      dispatch(setPreviousProvider(currentProviderType))
-      dispatch(updateProviderType(type))
-      dispatch(setSelectedToken())
-    })
 
+    try {
+      await promisifiedBackground.setProviderType(type)
+    } catch (error) {
+      log.error(error)
+      return dispatch(displayWarning('Had a problem changing networks!'))
+    }
+    dispatch(setPreviousProvider(currentProviderType))
+    dispatch(updateProviderType(type))
+    dispatch(setSelectedToken())
   }
 }
 
