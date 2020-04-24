@@ -1984,15 +1984,16 @@ export function setUseNonceField (val) {
 }
 
 export function setUsePhishDetect (val) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication())
     log.debug(`background.setUsePhishDetect`)
-    background.setUsePhishDetect(val, (err) => {
+    try {
+      await promisifiedBackground.setUsePhishDetect(val)
+    } catch (error) {
       dispatch(hideLoadingIndication())
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      }
-    })
+      return dispatch(displayWarning(error.message))
+    }
+    dispatch(hideLoadingIndication())
   }
 }
 
