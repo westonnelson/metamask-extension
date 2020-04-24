@@ -31,8 +31,8 @@ export default class DisconnectAll extends PureComponent {
           </div>
           <Button
             type="danger"
-            onClick={ () => {
-              disconnectAll()
+            onClick={async () => {
+              await disconnectAll()
               hideModal()
               history.push(DEFAULT_ROUTE)
             }}

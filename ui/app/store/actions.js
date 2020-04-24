@@ -2112,8 +2112,8 @@ export function removePermissionsFor (domains) {
  * Clears all permissions for all domains.
  */
 export function clearPermissions () {
-  return () => {
-    background.clearPermissions()
+  return async () => {
+    await promisifiedBackground.clearPermissions()
   }
 }
 

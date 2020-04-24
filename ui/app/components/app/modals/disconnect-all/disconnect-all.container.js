@@ -7,8 +7,8 @@ import { clearPermissions } from '../../../../store/actions'
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    disconnectAll: () => {
-      dispatch(clearPermissions())
+    disconnectAll: async () => {
+      await dispatch(clearPermissions())
     },
   }
 }
