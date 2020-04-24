@@ -2066,8 +2066,8 @@ export function setPendingTokens (pendingTokens) {
  * @param {string[]} accounts - The accounts to expose, if any.
  */
 export function approvePermissionsRequest (request, accounts) {
-  return () => {
-    background.approvePermissionsRequest(request, accounts)
+  return async () => {
+    await promisifiedBackground.approvePermissionsRequest(request, accounts)
   }
 }
 
