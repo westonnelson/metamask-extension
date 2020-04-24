@@ -36,9 +36,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getOpenMetamaskTabsIds: () => dispatch(getOpenMetamaskTabsIds()),
-    disconnectAccount: (domainKey, domain) => {
+    disconnectAccount: async (domainKey, domain) => {
       const permissionMethodNames = domain.permissions.map(({ parentCapability }) => parentCapability)
-      dispatch(removePermissionsFor({
+      await dispatch(removePermissionsFor({
         [domainKey]: permissionMethodNames,
       }))
     },

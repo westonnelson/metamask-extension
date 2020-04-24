@@ -48,11 +48,11 @@ export default class ConnectSites extends Component {
     })
   }
 
-  disconnect = () => {
+  disconnect = async () => {
     const { disconnectAccount } = this.props
     const { sitePendingDisconnect } = this.state
 
-    disconnectAccount(sitePendingDisconnect.domainKey)
+    await disconnectAccount(sitePendingDisconnect.domainKey)
     this.clearSitePendingDisconnect()
   }
 
