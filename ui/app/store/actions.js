@@ -1998,19 +1998,20 @@ export function setUsePhishDetect (val) {
 }
 
 export function setIpfsGateway (val) {
-  return (dispatch) => {
+  return async (dispatch) => {
     dispatch(showLoadingIndication())
     log.debug(`background.setIpfsGateway`)
-    background.setIpfsGateway(val, (err) => {
+
+    try {
+      await promisifiedBackground.setIpfsGateway(val)
+    } catch (error) {
       dispatch(hideLoadingIndication())
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      } else {
-        dispatch({
-          type: actionConstants.SET_IPFS_GATEWAY,
-          value: val,
-        })
-      }
+      return dispatch(displayWarning(error.message))
+    }
+    dispatch(hideLoadingIndication())
+    dispatch({
+      type: actionConstants.SET_IPFS_GATEWAY,
+      value: val,
     })
   }
 }
