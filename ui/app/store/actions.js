@@ -2168,12 +2168,8 @@ export function setMkrMigrationReminderTimestamp (timestamp) {
 }
 
 export function setConnectedStatusPopoverHasBeenShown () {
-  return () => {
-    background.setConnectedStatusPopoverHasBeenShown((err) => {
-      if (err) {
-        throw new Error(err.message)
-      }
-    })
+  return async () => {
+    await promisifiedBackground.setConnectedStatusPopoverHasBeenShown()
   }
 }
 
