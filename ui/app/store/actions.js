@@ -2147,13 +2147,13 @@ export function setNetworksTabAddMode (isInAddMode) {
   }
 }
 
-export function setLastActiveTime () {
-  return (dispatch) => {
-    background.setLastActiveTime((err) => {
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      }
-    })
+export async function setLastActiveTime () {
+  return async (dispatch) => {
+    try {
+      await promisifiedBackground.setLastActiveTime()
+    } catch (error) {
+      return dispatch(displayWarning(error.message))
+    }
   }
 }
 
