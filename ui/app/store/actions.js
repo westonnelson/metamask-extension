@@ -2118,13 +2118,14 @@ export function clearPermissions () {
 }
 
 export function setFirstTimeFlowType (type) {
-  return (dispatch) => {
+  return async (dispatch) => {
     log.debug(`background.setFirstTimeFlowType`)
-    background.setFirstTimeFlowType(type, (err) => {
-      if (err) {
-        return dispatch(displayWarning(err.message))
-      }
-    })
+
+    try {
+      await promisifiedBackground.setFirstTimeFlowType(type)
+    } catch (error) {
+      return dispatch(displayWarning(error.message))
+    }
     dispatch({
       type: actionConstants.SET_FIRST_TIME_FLOW_TYPE,
       value: type,

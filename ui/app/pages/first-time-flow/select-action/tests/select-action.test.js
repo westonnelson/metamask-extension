@@ -26,18 +26,18 @@ describe('Selection Action', function () {
     props.history.push.resetHistory()
   })
 
-  it('clicks import wallet to route to import FTF', function () {
+  it('clicks import wallet to route to import FTF', async function () {
     const importWalletButton = wrapper.find('.btn-primary.first-time-flow__button').at(0)
-    importWalletButton.simulate('click')
+    await importWalletButton.simulate('click')
 
     assert(props.setFirstTimeFlowType.calledOnce)
     assert.equal(props.setFirstTimeFlowType.getCall(0).args[0], 'import')
     assert(props.history.push.calledOnce)
   })
 
-  it('clicks create wallet to route to create FTF ', function () {
+  it('clicks create wallet to route to create FTF ', async function () {
     const createWalletButton = wrapper.find('.btn-primary.first-time-flow__button').at(1)
-    createWalletButton.simulate('click')
+    await createWalletButton.simulate('click')
 
     assert(props.setFirstTimeFlowType.calledOnce)
     assert.equal(props.setFirstTimeFlowType.getCall(0).args[0], 'create')

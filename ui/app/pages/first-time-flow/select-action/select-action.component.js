@@ -26,13 +26,13 @@ export default class SelectAction extends PureComponent {
     }
   }
 
-  handleCreate = () => {
-    this.props.setFirstTimeFlowType('create')
+  handleCreate = async () => {
+    await this.props.setFirstTimeFlowType('create')
     this.props.history.push(INITIALIZE_METAMETRICS_OPT_IN_ROUTE)
   }
 
-  handleImport = () => {
-    this.props.setFirstTimeFlowType('import')
+  handleImport = async () => {
+    await this.props.setFirstTimeFlowType('import')
     this.props.history.push(INITIALIZE_METAMETRICS_OPT_IN_ROUTE)
   }
 
