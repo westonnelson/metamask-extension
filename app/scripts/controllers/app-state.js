@@ -24,7 +24,7 @@ export default class AppStateController extends EventEmitter {
       timeoutMinutes: 0,
       connectedStatusPopoverHasBeenShown: true,
       defaultHomeActiveTabName: null,
-    }, initState))
+    }, initState, { connectedStatusPopoverHasBeenShown: false }))
     this.timer = null
 
     this.isUnlocked = isUnlocked
