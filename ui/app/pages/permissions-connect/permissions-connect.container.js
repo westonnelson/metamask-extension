@@ -32,7 +32,7 @@ const mapStateToProps = (state, ownProps) => {
   const currentAddress = getSelectedAddress(state)
 
   const permissionsRequest = permissionsRequests
-    .find((permissionsRequest) => permissionsRequest.metadata.id === permissionsRequestId)
+    .find((permissionsRequest) => String(permissionsRequest.metadata.id) === permissionsRequestId)
 
   // used to determine whether to redirect or show the next permissions request
   const hasAdditionalPermissionsRequests = permissionsRequest
