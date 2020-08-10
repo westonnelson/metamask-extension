@@ -668,13 +668,13 @@ describe('MetaMask', function () {
       await driver.wait(until.elementTextMatches(contractStatus, /Deployed/u), 15000)
 
       await driver.clickElement(By.css('#depositButton'))
-      await driver.delay(largeDelayMs)
+      await driver.delay(largeDelayMs * 2)
 
       contractStatus = await driver.findElement(By.css('#contractStatus'))
       await driver.wait(until.elementTextMatches(contractStatus, /Deposit\sinitiated/u), 10000)
 
       await driver.switchToWindow(extension)
-      await driver.delay(largeDelayMs * 2)
+      await driver.delay(largeDelayMs * 3)
 
       await driver.findElements(By.css('.transaction-list-item'))
       const txListValue = await driver.findClickableElement(By.css('.transaction-list-item__primary-currency'))
@@ -772,7 +772,7 @@ describe('MetaMask', function () {
       await driver.delay(regularDelayMs * 2)
 
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Create Token')]`))
-      await driver.delay(largeDelayMs)
+      await driver.delay(largeDelayMs * 3)
 
       windowHandles = await driver.getAllWindowHandles()
       const popup = windowHandles[2]
@@ -1008,7 +1008,7 @@ describe('MetaMask', function () {
       await driver.delay(regularDelayMs)
 
       await driver.switchToWindow(dapp)
-      await driver.delay(tinyDelayMs)
+      await driver.delay(largeDelayMs * 2)
 
       await driver.clickElement(By.xpath(`//button[contains(text(), 'Approve Tokens')]`))
 
