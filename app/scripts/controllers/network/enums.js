@@ -23,13 +23,7 @@ export const KOVAN_DISPLAY_NAME = 'Kovan'
 export const MAINNET_DISPLAY_NAME = 'Main Ethereum Network'
 export const GOERLI_DISPLAY_NAME = 'Goerli'
 
-export const INFURA_PROVIDER_TYPES = [
-  ROPSTEN,
-  RINKEBY,
-  KOVAN,
-  MAINNET,
-  GOERLI,
-]
+export const INFURA_PROVIDER_TYPES = [ROPSTEN, RINKEBY, KOVAN, MAINNET, GOERLI]
 
 export const NETWORK_TYPE_TO_ID_MAP = {
   [ROPSTEN]: { networkId: ROPSTEN_NETWORK_ID, chainId: ROPSTEN_CHAIN_ID },

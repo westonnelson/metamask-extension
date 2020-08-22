@@ -5,12 +5,12 @@ import { alertIsOpen as unconnectedAccountAlertIsOpen } from '../../../ducks/ale
 import UnconnectedAccountAlert from './unconnected-account-alert'
 
 const Alerts = () => {
-  const _unconnectedAccountAlertIsOpen = useSelector(unconnectedAccountAlertIsOpen)
+  const _unconnectedAccountAlertIsOpen = useSelector(
+    unconnectedAccountAlertIsOpen,
+  )
 
   if (_unconnectedAccountAlertIsOpen) {
-    return (
-      <UnconnectedAccountAlert />
-    )
+    return <UnconnectedAccountAlert />
   }
 
   return null

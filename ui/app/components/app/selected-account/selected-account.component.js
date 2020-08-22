@@ -18,7 +18,7 @@ class SelectedAccount extends Component {
     selectedIdentity: PropTypes.object.isRequired,
   }
 
-  render () {
+  render() {
     const { t } = this.context
     const { selectedIdentity } = this.props
     const checksummedAddress = checksumAddress(selectedIdentity.address)
@@ -28,7 +28,9 @@ class SelectedAccount extends Component {
         <Tooltip
           wrapperClassName="selected-account__tooltip-wrapper"
           position="bottom"
-          title={this.state.copied ? t('copiedExclamation') : t('copyToClipboard')}
+          title={
+            this.state.copied ? t('copiedExclamation') : t('copyToClipboard')
+          }
         >
           <div
             className="selected-account__clickable"
@@ -39,10 +41,10 @@ class SelectedAccount extends Component {
             }}
           >
             <div className="selected-account__name">
-              { selectedIdentity.name }
+              {selectedIdentity.name}
             </div>
             <div className="selected-account__address">
-              { shortenAddress(checksummedAddress) }
+              {shortenAddress(checksummedAddress)}
             </div>
           </div>
         </Tooltip>

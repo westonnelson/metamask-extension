@@ -25,7 +25,16 @@ const typeHash = {
   'first-time': CLASSNAME_FIRST_TIME,
 }
 
-const Button = ({ type, submit, large, children, icon, rounded, className, ...buttonProps }) => (
+const Button = ({
+  type,
+  submit,
+  large,
+  children,
+  icon,
+  rounded,
+  className,
+  ...buttonProps
+}) => (
   <button
     type={submit ? 'submit' : undefined}
     className={classnames(
@@ -35,10 +44,10 @@ const Button = ({ type, submit, large, children, icon, rounded, className, ...bu
       rounded && CLASSNAME_ROUNDED,
       className,
     )}
-    { ...buttonProps }
+    {...buttonProps}
   >
     {icon && <span className="button__icon">{icon}</span>}
-    { children }
+    {children}
   </button>
 )
 

@@ -14,7 +14,6 @@ const {
 } = proxyquire('../custom-gas', {})
 
 describe('custom-gas selectors', function () {
-
   describe('getCustomGasPrice()', function () {
     it('should return gas.customData.price', function () {
       const mockState = { gas: { customData: { price: 'mockPrice' } } }
@@ -45,8 +44,13 @@ describe('custom-gas selectors', function () {
 
   describe('getPriceAndTimeEstimates', function () {
     it('should return price and time estimates', function () {
-      const mockState = { gas: { priceAndTimeEstimates: 'mockPriceAndTimeEstimates' } }
-      assert.equal(getPriceAndTimeEstimates(mockState), 'mockPriceAndTimeEstimates')
+      const mockState = {
+        gas: { priceAndTimeEstimates: 'mockPriceAndTimeEstimates' },
+      }
+      assert.equal(
+        getPriceAndTimeEstimates(mockState),
+        'mockPriceAndTimeEstimates',
+      )
     })
   })
 
@@ -353,7 +357,6 @@ describe('custom-gas selectors', function () {
         )
       })
     })
-
   })
 
   describe('getRenderableEstimateDataForSmallButtonsFromGWEI()', function () {
@@ -617,7 +620,5 @@ describe('custom-gas selectors', function () {
         )
       })
     })
-
   })
-
 })

@@ -24,49 +24,51 @@ export default class ButtonGroup extends PureComponent {
       : this.props.defaultActiveButtonIndex,
   }
 
-  componentDidUpdate (_, prevState) {
+  componentDidUpdate(_, prevState) {
     // Provides an API for dynamically updating the activeButtonIndex
-    if (typeof this.props.newActiveButtonIndex === 'number' && prevState.activeButtonIndex !== this.props.newActiveButtonIndex) {
+    if (
+      typeof this.props.newActiveButtonIndex === 'number' &&
+      prevState.activeButtonIndex !== this.props.newActiveButtonIndex
+    ) {
       this.setState({ activeButtonIndex: this.props.newActiveButtonIndex })
     }
   }
 
-  handleButtonClick (activeButtonIndex) {
+  handleButtonClick(activeButtonIndex) {
     this.setState({ activeButtonIndex })
   }
 
-  renderButtons () {
+  renderButtons() {
     const { children, disabled } = this.props
 
     return React.Children.map(children, (child, index) => {
-      return child && (
-        <button
-          className={classnames(
-            'button-group__button',
-            { 'button-group__button--active': index === this.state.activeButtonIndex },
-          )}
-          onClick={() => {
-            this.handleButtonClick(index)
-            child.props.onClick && child.props.onClick()
-          }}
-          disabled={disabled || child.props.disabled}
-          key={index}
-        >
-          { child.props.children }
-        </button>
+      return (
+        child && (
+          <button
+            className={classnames('button-group__button', {
+              'button-group__button--active':
+                index === this.state.activeButtonIndex,
+            })}
+            onClick={() => {
+              this.handleButtonClick(index)
+              child.props.onClick && child.props.onClick()
+            }}
+            disabled={disabled || child.props.disabled}
+            key={index}
+          >
+            {child.props.children}
+          </button>
+        )
       )
     })
   }
 
-  render () {
+  render() {
     const { className, style } = this.props
 
     return (
-      <div
-        className={className}
-        style={style}
-      >
-        { this.renderButtons() }
+      <div className={className} style={style}>
+        {this.renderButtons()}
       </div>
     )
   }

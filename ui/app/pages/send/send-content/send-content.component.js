@@ -8,7 +8,6 @@ import SendHexDataRow from './send-hex-data-row'
 import SendAssetRow from './send-asset-row'
 
 export default class SendContent extends Component {
-
   static contextTypes = {
     t: PropTypes.func,
   }
@@ -23,29 +22,29 @@ export default class SendContent extends Component {
 
   updateGas = (updateData) => this.props.updateGas(updateData)
 
-  render () {
+  render() {
     return (
       <PageContainerContent>
         <div className="send-v2__form">
-          { this.maybeRenderAddContact() }
+          {this.maybeRenderAddContact()}
           <SendAssetRow />
           <SendAmountRow updateGas={this.updateGas} />
           <SendGasRow />
-          {
-            this.props.showHexData && (
-              <SendHexDataRow
-                updateGas={this.updateGas}
-              />
-            )
-          }
+          {this.props.showHexData && (
+            <SendHexDataRow updateGas={this.updateGas} />
+          )}
         </div>
       </PageContainerContent>
     )
   }
 
-  maybeRenderAddContact () {
+  maybeRenderAddContact() {
     const { t } = this.context
-    const { isOwnedAccount, showAddToAddressBookModal, contact = {} } = this.props
+    const {
+      isOwnedAccount,
+      showAddToAddressBookModal,
+      contact = {},
+    } = this.props
 
     if (isOwnedAccount || contact.name) {
       return null

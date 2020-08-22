@@ -36,27 +36,23 @@ const AssetListItem = ({
       name: 'Clicked Send: Token',
     },
   })
-  const titleIcon = warning
-    ? (
-      <Tooltip
-        wrapperClassName="asset-list-item__warning-tooltip"
-        interactive
-        position="bottom"
-        html={warning}
-      >
-        <InfoIcon severity="warning" />
-      </Tooltip>
-    )
-    : null
+  const titleIcon = warning ? (
+    <Tooltip
+      wrapperClassName="asset-list-item__warning-tooltip"
+      interactive
+      position="bottom"
+      html={warning}
+    >
+      <InfoIcon severity="warning" />
+    </Tooltip>
+  ) : null
 
-  const midContent = warning
-    ? (
-      <>
-        <InfoIcon severity="warning" />
-        <div className="asset-list-item__warning">{warning}</div>
-      </>
-    )
-    : null
+  const midContent = warning ? (
+    <>
+      <InfoIcon severity="warning" />
+      <div className="asset-list-item__warning">{warning}</div>
+    </>
+  ) : null
 
   const sendTokenButton = useMemo(() => {
     if (tokenAddress === null || tokenAddress === undefined) {
@@ -69,11 +65,13 @@ const AssetListItem = ({
         onClick={(e) => {
           e.stopPropagation()
           sendTokenEvent()
-          dispatch(updateSendToken({
-            address: tokenAddress,
-            decimals: tokenDecimals,
-            symbol: tokenSymbol,
-          }))
+          dispatch(
+            updateSendToken({
+              address: tokenAddress,
+              decimals: tokenDecimals,
+              symbol: tokenSymbol,
+            }),
+          )
           history.push(SEND_ROUTE)
         }}
       >
@@ -98,21 +96,21 @@ const AssetListItem = ({
       titleIcon={titleIcon}
       subtitle={<h3 title={secondary}>{secondary}</h3>}
       onClick={onClick}
-      icon={(
+      icon={
         <Identicon
           className={iconClassName}
           diameter={32}
           address={tokenAddress}
           image={tokenImage}
         />
-      )}
+      }
       midContent={midContent}
-      rightContent={(
+      rightContent={
         <>
           <i className="fas fa-chevron-right asset-list-item__chevron-right" />
           {sendTokenButton}
         </>
-      )}
+      }
     />
   )
 }

@@ -3,7 +3,7 @@ import TokenTracker from '@metamask/eth-token-tracker'
 import { useSelector } from 'react-redux'
 import { getCurrentNetwork, getSelectedAddress } from '../selectors'
 
-export function useTokenTracker (tokens) {
+export function useTokenTracker(tokens) {
   const network = useSelector(getCurrentNetwork)
   const userAddress = useSelector(getSelectedAddress)
 
@@ -32,20 +32,23 @@ export function useTokenTracker (tokens) {
     }
   }, [])
 
-  const buildTracker = useCallback((address, tokenList) => {
-    // clear out previous tracker, if it exists.
-    teardownTracker()
-    tokenTracker.current = new TokenTracker({
-      userAddress: address,
-      provider: global.ethereumProvider,
-      tokens: tokenList,
-      pollingInterval: 8000,
-    })
+  const buildTracker = useCallback(
+    (address, tokenList) => {
+      // clear out previous tracker, if it exists.
+      teardownTracker()
+      tokenTracker.current = new TokenTracker({
+        userAddress: address,
+        provider: global.ethereumProvider,
+        tokens: tokenList,
+        pollingInterval: 8000,
+      })
 
-    tokenTracker.current.on('update', updateBalances)
-    tokenTracker.current.on('error', showError)
-    tokenTracker.current.updateBalances()
-  }, [updateBalances, showError, teardownTracker])
+      tokenTracker.current.on('update', updateBalances)
+      tokenTracker.current.on('error', showError)
+      tokenTracker.current.updateBalances()
+    },
+    [updateBalances, showError, teardownTracker],
+  )
 
   // Effect to remove the tracker when the component is removed from DOM
   // Do not overload this effect with additional dependencies. teardownTracker
@@ -80,7 +83,14 @@ export function useTokenTracker (tokens) {
     }
 
     buildTracker(userAddress, tokens)
-  }, [userAddress, teardownTracker, network, tokens, updateBalances, buildTracker])
+  }, [
+    userAddress,
+    teardownTracker,
+    network,
+    tokens,
+    updateBalances,
+    buildTracker,
+  ])
 
   return { loading, tokensWithBalances, error }
 }

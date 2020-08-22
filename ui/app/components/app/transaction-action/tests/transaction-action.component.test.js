@@ -34,18 +34,22 @@ describe('TransactionAction Component', function () {
         },
       }
 
-      const wrapper = shallow((
+      const wrapper = shallow(
         <TransactionAction
           methodData={methodData}
           transaction={transaction}
           className="transaction-action"
-        />
-      ), { context: { t } })
+        />,
+        { context: { t } },
+      )
 
       assert.equal(wrapper.find('.transaction-action').length, 1)
       wrapper.setState({ transactionAction: 'sentEther' })
       assert.equal(wrapper.text(), 'sentEther')
-      assert.equal(wrapper.find('.transaction-action').props().title.trim(), 'sentEther')
+      assert.equal(
+        wrapper.find('.transaction-action').props().title.trim(),
+        'sentEther',
+      )
     })
 
     it('should render Approved', async function () {
@@ -64,7 +68,8 @@ describe('TransactionAction Component', function () {
           nonce: '0x96',
           to: 'approveAddress',
           value: '0x2386f26fc10000',
-          data: '0x095ea7b300000000000000000000000050a9d56c2b8ba9a5c7f2c08c3d26e0499f23a7060000000000000000000000000000000000000000000000000000000000000003',
+          data:
+            '0x095ea7b300000000000000000000000050a9d56c2b8ba9a5c7f2c08c3d26e0499f23a7060000000000000000000000000000000000000000000000000000000000000003',
         },
         transactionCategory: 'contractInteraction',
       }
@@ -81,7 +86,10 @@ describe('TransactionAction Component', function () {
       assert.ok(wrapper)
       assert.equal(wrapper.find('.transaction-action').length, 1)
       assert.equal(wrapper.find('.transaction-action').text().trim(), 'Approve')
-      assert.equal(wrapper.find('.transaction-action').props().title.trim(), 'Approve')
+      assert.equal(
+        wrapper.find('.transaction-action').props().title.trim(),
+        'Approve',
+      )
     })
 
     it('should render contractInteraction', async function () {
@@ -98,7 +106,8 @@ describe('TransactionAction Component', function () {
           nonce: '0x96',
           to: 'approveAddress',
           value: '0x2386f26fc10000',
-          data: '0x095ea7b300000000000000000000000050a9d56c2b8ba9a5c7f2c08c3d26e0499f23a7060000000000000000000000000000000000000000000000000000000000000003',
+          data:
+            '0x095ea7b300000000000000000000000050a9d56c2b8ba9a5c7f2c08c3d26e0499f23a7060000000000000000000000000000000000000000000000000000000000000003',
         },
         transactionCategory: 'contractInteraction',
       }
@@ -114,8 +123,14 @@ describe('TransactionAction Component', function () {
 
       assert.ok(wrapper)
       assert.equal(wrapper.find('.transaction-action').length, 1)
-      assert.equal(wrapper.find('.transaction-action').text().trim(), 'contractInteraction')
-      assert.equal(wrapper.find('.transaction-action').props().title.trim(), 'contractInteraction')
+      assert.equal(
+        wrapper.find('.transaction-action').text().trim(),
+        'contractInteraction',
+      )
+      assert.equal(
+        wrapper.find('.transaction-action').props().title.trim(),
+        'contractInteraction',
+      )
     })
   })
 })

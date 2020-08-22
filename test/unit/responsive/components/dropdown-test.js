@@ -7,8 +7,7 @@ import { mountWithStore } from '../../../lib/render-helpers'
 import { Dropdown } from '../../../../ui/app/components/app/dropdowns/components/dropdown'
 
 const mockState = {
-  metamask: {
-  },
+  metamask: {},
 }
 
 describe('Dropdown components', function () {
@@ -37,20 +36,19 @@ describe('Dropdown components', function () {
     onClick = sinon.spy()
 
     store = createMockStore(mockState)
-    component = mountWithStore((
+    component = mountWithStore(
       <Dropdown {...dropdownComponentProps}>
         <style>
-          {
-            `
+          {`
               .drop-menu-item:hover { background:rgb(235, 235, 235); }
               .drop-menu-item i { margin: 11px; }
-            `
-          }
+            `}
         </style>
         <li onClick={onClick}>Item 1</li>
         <li onClick={onClick}>Item 2</li>
-      </Dropdown>
-    ), store)
+      </Dropdown>,
+      store,
+    )
     dropdownComponent = component
   })
 

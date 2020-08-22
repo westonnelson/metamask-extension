@@ -10,7 +10,6 @@ import { ellipsify } from '../../send.utils'
 import Button from '../../../../components/ui/button'
 
 export default class AddRecipient extends Component {
-
   static propTypes = {
     query: PropTypes.string,
     ownedAccounts: PropTypes.array,
@@ -26,7 +25,7 @@ export default class AddRecipient extends Component {
     nonContacts: PropTypes.array,
   }
 
-  constructor (props) {
+  constructor(props) {
     super(props)
     this.recentFuse = new Fuse(props.nonContacts, {
       shouldSort: true,
@@ -35,9 +34,7 @@ export default class AddRecipient extends Component {
       distance: 100,
       maxPatternLength: 32,
       minMatchCharLength: 1,
-      keys: [
-        { name: 'address', weight: 0.5 },
-      ],
+      keys: [{ name: 'address', weight: 0.5 }],
     })
 
     this.contactFuse = new Fuse(props.contacts, {
@@ -96,7 +93,7 @@ export default class AddRecipient extends Component {
     return _nonContacts
   }
 
-  render () {
+  render() {
     const { ensResolution, query, addressBookEntryName } = this.props
     const { isShowingTransfer } = this.state
 
@@ -105,20 +102,23 @@ export default class AddRecipient extends Component {
     if (isValidAddress(query)) {
       content = this.renderExplicitAddress(query)
     } else if (ensResolution) {
-      content = this.renderExplicitAddress(ensResolution, addressBookEntryName || query)
+      content = this.renderExplicitAddress(
+        ensResolution,
+        addressBookEntryName || query,
+      )
     } else if (isShowingTransfer) {
       content = this.renderTransfer()
     }
 
     return (
       <div className="send__select-recipient-wrapper">
-        { this.renderDialogs() }
-        { content || this.renderMain() }
+        {this.renderDialogs()}
+        {content || this.renderMain()}
       </div>
     )
   }
 
-  renderExplicitAddress (address, name) {
+  renderExplicitAddress(address, name) {
     return (
       <div
         key={address}
@@ -130,19 +130,17 @@ export default class AddRecipient extends Component {
           <div className="send__select-recipient-wrapper__group-item__title">
             {name || ellipsify(address)}
           </div>
-          {
-            name && (
-              <div className="send__select-recipient-wrapper__group-item__subtitle">
-                {ellipsify(address)}
-              </div>
-            )
-          }
+          {name && (
+            <div className="send__select-recipient-wrapper__group-item__subtitle">
+              {ellipsify(address)}
+            </div>
+          )}
         </div>
       </div>
     )
   }
 
-  renderTransfer () {
+  renderTransfer() {
     const { ownedAccounts } = this.props
     const { t } = this.context
 
@@ -154,7 +152,7 @@ export default class AddRecipient extends Component {
           onClick={() => this.setState({ isShowingTransfer: false })}
         >
           <div className="send__select-recipient-wrapper__list__back-caret" />
-          { t('backToAll') }
+          {t('backToAll')}
         </Button>
         <RecipientGroup
           label={t('myAccounts')}
@@ -165,7 +163,7 @@ export default class AddRecipient extends Component {
     )
   }
 
-  renderMain () {
+  renderMain() {
     const { t } = this.context
     const { query, ownedAccounts = [], addressBook } = this.props
 
@@ -177,23 +175,21 @@ export default class AddRecipient extends Component {
           searchForRecents={this.searchForRecents.bind(this)}
           selectRecipient={this.selectRecipient.bind(this)}
         >
-          {
-            (ownedAccounts && ownedAccounts.length > 1) && !query && (
-              <Button
-                type="link"
-                className="send__select-recipient-wrapper__list__link"
-                onClick={() => this.setState({ isShowingTransfer: true })}
-              >
-                { t('transferBetweenAccounts') }
-              </Button>
-            )
-          }
+          {ownedAccounts && ownedAccounts.length > 1 && !query && (
+            <Button
+              type="link"
+              className="send__select-recipient-wrapper__list__link"
+              onClick={() => this.setState({ isShowingTransfer: true })}
+            >
+              {t('transferBetweenAccounts')}
+            </Button>
+          )}
         </ContactList>
       </div>
     )
   }
 
-  renderDialogs () {
+  renderDialogs() {
     const { toError, toWarning, ensResolutionError, ensResolution } = this.props
     const { t } = this.context
     const contacts = this.searchForContacts()
@@ -205,10 +201,7 @@ export default class AddRecipient extends Component {
 
     if (ensResolutionError) {
       return (
-        <Dialog
-          type="error"
-          className="send__error-dialog"
-        >
+        <Dialog type="error" className="send__error-dialog">
           {ensResolutionError}
         </Dialog>
       )
@@ -216,10 +209,7 @@ export default class AddRecipient extends Component {
 
     if (toError && toError !== 'required' && !ensResolution) {
       return (
-        <Dialog
-          type="error"
-          className="send__error-dialog"
-        >
+        <Dialog type="error" className="send__error-dialog">
           {t(toError)}
         </Dialog>
       )
@@ -227,10 +217,7 @@ export default class AddRecipient extends Component {
 
     if (toWarning) {
       return (
-        <Dialog
-          type="warning"
-          className="send__error-dialog"
-        >
+        <Dialog type="warning" className="send__error-dialog">
           {t(toWarning)}
         </Dialog>
       )
@@ -238,5 +225,4 @@ export default class AddRecipient extends Component {
 
     return null
   }
-
 }

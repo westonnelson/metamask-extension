@@ -47,7 +47,7 @@ const hstInterface = new ethers.utils.Interface(abi)
 /**
  * @returns {EthersContractCall | undefined}
  */
-export function getTokenData (data) {
+export function getTokenData(data) {
   try {
     return hstInterface.parseTransaction({ data })
   } catch (error) {
@@ -56,13 +56,16 @@ export function getTokenData (data) {
   }
 }
 
-async function getMethodFrom4Byte (fourBytePrefix) {
-  const fourByteResponse = (await fetchWithCache(`https://www.4byte.directory/api/v1/signatures/?hex_signature=${fourBytePrefix}`, {
-    referrerPolicy: 'no-referrer-when-downgrade',
-    body: null,
-    method: 'GET',
-    mode: 'cors',
-  }))
+async function getMethodFrom4Byte(fourBytePrefix) {
+  const fourByteResponse = await fetchWithCache(
+    `https://www.4byte.directory/api/v1/signatures/?hex_signature=${fourBytePrefix}`,
+    {
+      referrerPolicy: 'no-referrer-when-downgrade',
+      body: null,
+      method: 'GET',
+      mode: 'cors',
+    },
+  )
 
   if (fourByteResponse.count === 1) {
     return fourByteResponse.results[0].text_signature
@@ -76,7 +79,7 @@ let registry
  * @param {string} fourBytePrefix - The prefix from the method code associated with the data
  * @returns {Object}
  */
-export async function getMethodDataAsync (fourBytePrefix) {
+export async function getMethodDataAsync(fourBytePrefix) {
   try {
     const fourByteSig = getMethodFrom4Byte(fourBytePrefix).catch((e) => {
       log.error(e)
@@ -109,7 +112,7 @@ export async function getMethodDataAsync (fourBytePrefix) {
   }
 }
 
-export function isConfirmDeployContract (txData = {}) {
+export function isConfirmDeployContract(txData = {}) {
   const { txParams = {} } = txData
   return !txParams.to
 }
@@ -120,19 +123,19 @@ export function isConfirmDeployContract (txData = {}) {
  * @param {string} data - The hex data (@code txParams.data) of a transaction
  * @returns {string} - The four-byte method signature
  */
-export function getFourBytePrefix (data = '') {
+export function getFourBytePrefix(data = '') {
   const prefixedData = ethUtil.addHexPrefix(data)
   const fourBytePrefix = prefixedData.slice(0, 10)
   return fourBytePrefix
 }
 
 /**
-  * Given an transaction category, returns a boolean which indicates whether the transaction is calling an erc20 token method
-  *
-  * @param {string} transactionCategory - The category of transaction being evaluated
-  * @returns {boolean} - whether the transaction is calling an erc20 token method
-  */
-export function isTokenMethodAction (transactionCategory) {
+ * Given an transaction category, returns a boolean which indicates whether the transaction is calling an erc20 token method
+ *
+ * @param {string} transactionCategory - The category of transaction being evaluated
+ * @returns {boolean} - whether the transaction is calling an erc20 token method
+ */
+export function isTokenMethodAction(transactionCategory) {
   return [
     TOKEN_METHOD_TRANSFER,
     TOKEN_METHOD_APPROVE,
@@ -145,7 +148,7 @@ export function isTokenMethodAction (transactionCategory) {
  * @param {Object} transaction - txData object
  * @returns {string|undefined}
  */
-export function getTransactionActionKey (transaction) {
+export function getTransactionActionKey(transaction) {
   const { msgParams, type, transactionCategory } = transaction
 
   if (transactionCategory === 'incoming') {
@@ -170,7 +173,8 @@ export function getTransactionActionKey (transaction) {
   }
 
   const isTokenAction = isTokenMethodAction(transactionCategory)
-  const isNonTokenSmartContract = transactionCategory === CONTRACT_INTERACTION_KEY
+  const isNonTokenSmartContract =
+    transactionCategory === CONTRACT_INTERACTION_KEY
 
   if (isTokenAction || isNonTokenSmartContract) {
     switch (transactionCategory) {
@@ -190,7 +194,10 @@ export function getTransactionActionKey (transaction) {
   }
 }
 
-export function getLatestSubmittedTxWithNonce (transactions = [], nonce = '0x0') {
+export function getLatestSubmittedTxWithNonce(
+  transactions = [],
+  nonce = '0x0',
+) {
   if (!transactions.length) {
     return {}
   }
@@ -208,14 +215,14 @@ export function getLatestSubmittedTxWithNonce (transactions = [], nonce = '0x0')
   }, {})
 }
 
-export async function isSmartContractAddress (address) {
+export async function isSmartContractAddress(address) {
   const code = await global.eth.getCode(address)
   // Geth will return '0x', and ganache-core v2.2.1 will return '0x0'
   const codeIsEmpty = !code || code === '0x' || code === '0x0'
   return !codeIsEmpty
 }
 
-export function sumHexes (...args) {
+export function sumHexes(...args) {
   const total = args.reduce((acc, base) => {
     return addCurrencies(acc, base, {
       toNumericBase: 'hex',
@@ -232,15 +239,22 @@ export function sumHexes (...args) {
  * @param {Object} transaction.txReceipt - The transaction receipt.
  * @returns {string}
  */
-export function getStatusKey (transaction) {
-  const { txReceipt: { status: receiptStatus } = {}, type, status } = transaction
+export function getStatusKey(transaction) {
+  const {
+    txReceipt: { status: receiptStatus } = {},
+    type,
+    status,
+  } = transaction
 
   // There was an on-chain failure
   if (receiptStatus === '0x0') {
     return 'failed'
   }
 
-  if (status === TRANSACTION_STATUS_CONFIRMED && type === TRANSACTION_TYPE_CANCEL) {
+  if (
+    status === TRANSACTION_STATUS_CONFIRMED &&
+    type === TRANSACTION_TYPE_CANCEL
+  ) {
     return 'cancelled'
   }
 
@@ -253,7 +267,7 @@ export function getStatusKey (transaction) {
  * @param {string} hash
  * @param {Object} rpcPrefs
  */
-export function getBlockExplorerUrlForTx (networkId, hash, rpcPrefs = {}) {
+export function getBlockExplorerUrlForTx(networkId, hash, rpcPrefs = {}) {
   if (rpcPrefs.blockExplorerUrl) {
     return `${rpcPrefs.blockExplorerUrl.replace(/\/+$/u, '')}/tx/${hash}`
   }

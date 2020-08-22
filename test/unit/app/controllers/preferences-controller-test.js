@@ -15,10 +15,7 @@ describe('preferences controller', function () {
 
   describe('setAddresses', function () {
     it('should keep a map of addresses to names and addresses in the store', function () {
-      preferencesController.setAddresses([
-        '0xda22le',
-        '0x7e57e2',
-      ])
+      preferencesController.setAddresses(['0xda22le', '0x7e57e2'])
 
       const { identities } = preferencesController.store.getState()
       assert.deepEqual(identities, {
@@ -34,10 +31,7 @@ describe('preferences controller', function () {
     })
 
     it('should create account tokens for each account in the store', function () {
-      preferencesController.setAddresses([
-        '0xda22le',
-        '0x7e57e2',
-      ])
+      preferencesController.setAddresses(['0xda22le', '0x7e57e2'])
 
       const { accountTokens } = preferencesController.store.getState()
 
@@ -48,14 +42,8 @@ describe('preferences controller', function () {
     })
 
     it('should replace its list of addresses', function () {
-      preferencesController.setAddresses([
-        '0xda22le',
-        '0x7e57e2',
-      ])
-      preferencesController.setAddresses([
-        '0xda22le77',
-        '0x7e57e277',
-      ])
+      preferencesController.setAddresses(['0xda22le', '0x7e57e2'])
+      preferencesController.setAddresses(['0xda22le77', '0x7e57e277'])
 
       const { identities } = preferencesController.store.getState()
       assert.deepEqual(identities, {
@@ -73,32 +61,29 @@ describe('preferences controller', function () {
 
   describe('removeAddress', function () {
     it('should remove an address from state', function () {
-      preferencesController.setAddresses([
-        '0xda22le',
-        '0x7e57e2',
-      ])
+      preferencesController.setAddresses(['0xda22le', '0x7e57e2'])
 
       preferencesController.removeAddress('0xda22le')
 
-      assert.equal(preferencesController.store.getState().identities['0xda22le'], undefined)
+      assert.equal(
+        preferencesController.store.getState().identities['0xda22le'],
+        undefined,
+      )
     })
 
     it('should remove an address from state and respective tokens', function () {
-      preferencesController.setAddresses([
-        '0xda22le',
-        '0x7e57e2',
-      ])
+      preferencesController.setAddresses(['0xda22le', '0x7e57e2'])
 
       preferencesController.removeAddress('0xda22le')
 
-      assert.equal(preferencesController.store.getState().accountTokens['0xda22le'], undefined)
+      assert.equal(
+        preferencesController.store.getState().accountTokens['0xda22le'],
+        undefined,
+      )
     })
 
     it('should switch accounts if the selected address is removed', function () {
-      preferencesController.setAddresses([
-        '0xda22le',
-        '0x7e57e2',
-      ])
+      preferencesController.setAddresses(['0xda22le', '0x7e57e2'])
 
       preferencesController.setSelectedAddress('0x7e57e2')
       preferencesController.removeAddress('0x7e57e2')
@@ -109,21 +94,24 @@ describe('preferences controller', function () {
 
   describe('setAccountLabel', function () {
     it('should update a label for the given account', function () {
-      preferencesController.setAddresses([
-        '0xda22le',
-        '0x7e57e2',
-      ])
+      preferencesController.setAddresses(['0xda22le', '0x7e57e2'])
 
-      assert.deepEqual(preferencesController.store.getState().identities['0xda22le'], {
-        name: 'Account 1',
-        address: '0xda22le',
-      })
+      assert.deepEqual(
+        preferencesController.store.getState().identities['0xda22le'],
+        {
+          name: 'Account 1',
+          address: '0xda22le',
+        },
+      )
 
       preferencesController.setAccountLabel('0xda22le', 'Dazzle')
-      assert.deepEqual(preferencesController.store.getState().identities['0xda22le'], {
-        name: 'Dazzle',
-        address: '0xda22le',
-      })
+      assert.deepEqual(
+        preferencesController.store.getState().identities['0xda22le'],
+        {
+          name: 'Dazzle',
+          address: '0xda22le',
+        },
+      )
     })
   })
 
@@ -182,18 +170,23 @@ describe('preferences controller', function () {
       const symbol = 'ABBR'
       const decimals = 5
 
-      preferencesController.setAddresses([
-        '0x7e57e2',
-        '0xda22le',
-      ])
+      preferencesController.setAddresses(['0x7e57e2', '0xda22le'])
 
       await preferencesController.setSelectedAddress('0x7e57e2')
       await preferencesController.addToken(address, symbol, decimals)
-      assert.equal(preferencesController.getTokens().length, 1, 'one token added for 1st address')
+      assert.equal(
+        preferencesController.getTokens().length,
+        1,
+        'one token added for 1st address',
+      )
 
       await preferencesController.setSelectedAddress('0xda22le')
       await preferencesController.addToken(address, symbol, decimals)
-      assert.equal(preferencesController.getTokens().length, 1, 'one token added for 2nd address')
+      assert.equal(
+        preferencesController.getTokens().length,
+        1,
+        'one token added for 2nd address',
+      )
     })
 
     it('should add token per account', async function () {
@@ -203,20 +196,25 @@ describe('preferences controller', function () {
       const symbolSecond = 'ABBB'
       const decimals = 5
 
-      preferencesController.setAddresses([
-        '0x7e57e2',
-        '0xda22le',
-      ])
+      preferencesController.setAddresses(['0x7e57e2', '0xda22le'])
 
       await preferencesController.setSelectedAddress('0x7e57e2')
       await preferencesController.addToken(addressFirst, symbolFirst, decimals)
       const tokensFirstAddress = preferencesController.getTokens()
 
       await preferencesController.setSelectedAddress('0xda22le')
-      await preferencesController.addToken(addressSecond, symbolSecond, decimals)
+      await preferencesController.addToken(
+        addressSecond,
+        symbolSecond,
+        decimals,
+      )
       const tokensSeconAddress = preferencesController.getTokens()
 
-      assert.notEqual(tokensFirstAddress, tokensSeconAddress, 'add different tokens for two account and tokens are equal')
+      assert.notEqual(
+        tokensFirstAddress,
+        tokensSeconAddress,
+        'add different tokens for two account and tokens are equal',
+      )
     })
 
     it('should add token per network', async function () {
@@ -231,10 +229,18 @@ describe('preferences controller', function () {
       const tokensFirstAddress = preferencesController.getTokens()
 
       network.providerStore.updateState({ type: 'rinkeby' })
-      await preferencesController.addToken(addressSecond, symbolSecond, decimals)
+      await preferencesController.addToken(
+        addressSecond,
+        symbolSecond,
+        decimals,
+      )
       const tokensSeconAddress = preferencesController.getTokens()
 
-      assert.notEqual(tokensFirstAddress, tokensSeconAddress, 'add different tokens for two networks and tokens are equal')
+      assert.notEqual(
+        tokensFirstAddress,
+        tokensSeconAddress,
+        'add different tokens for two networks and tokens are equal',
+      )
     })
   })
 
@@ -264,10 +270,7 @@ describe('preferences controller', function () {
     })
 
     it('should remove a token from its state on corresponding address', async function () {
-      preferencesController.setAddresses([
-        '0x7e57e2',
-        '0x7e57e3',
-      ])
+      preferencesController.setAddresses(['0x7e57e2', '0x7e57e3'])
       await preferencesController.setSelectedAddress('0x7e57e2')
       await preferencesController.addToken('0xa', 'A', 4)
       await preferencesController.addToken('0xb', 'B', 5)
@@ -286,7 +289,11 @@ describe('preferences controller', function () {
 
       await preferencesController.setSelectedAddress('0x7e57e3')
       const tokensSecond = preferencesController.getTokens()
-      assert.deepEqual(tokensSecond, initialTokensSecond, 'token deleted for account')
+      assert.deepEqual(
+        tokensSecond,
+        initialTokensSecond,
+        'token deleted for account',
+      )
     })
 
     it('should remove a token from its state on corresponding network', async function () {
@@ -308,16 +315,17 @@ describe('preferences controller', function () {
 
       network.providerStore.updateState({ type: 'rinkeby' })
       const tokensSecond = preferencesController.getTokens()
-      assert.deepEqual(tokensSecond, initialTokensSecond, 'token deleted for network')
+      assert.deepEqual(
+        tokensSecond,
+        initialTokensSecond,
+        'token deleted for network',
+      )
     })
   })
 
   describe('on setSelectedAddress', function () {
     it('should update tokens from its state on corresponding address', async function () {
-      preferencesController.setAddresses([
-        '0x7e57e2',
-        '0x7e57e3',
-      ])
+      preferencesController.setAddresses(['0x7e57e2', '0x7e57e3'])
       await preferencesController.setSelectedAddress('0x7e57e2')
       await preferencesController.addToken('0xa', 'A', 4)
       await preferencesController.addToken('0xb', 'B', 5)
@@ -330,15 +338,27 @@ describe('preferences controller', function () {
       await preferencesController.setSelectedAddress('0x7e57e3')
       const initialTokensSecond = preferencesController.getTokens()
 
-      assert.notDeepEqual(initialTokensFirst, initialTokensSecond, 'tokens not equal for different accounts and tokens')
+      assert.notDeepEqual(
+        initialTokensFirst,
+        initialTokensSecond,
+        'tokens not equal for different accounts and tokens',
+      )
 
       await preferencesController.setSelectedAddress('0x7e57e2')
       const tokensFirst = preferencesController.getTokens()
       await preferencesController.setSelectedAddress('0x7e57e3')
       const tokensSecond = preferencesController.getTokens()
 
-      assert.deepEqual(tokensFirst, initialTokensFirst, 'tokens equal for same account')
-      assert.deepEqual(tokensSecond, initialTokensSecond, 'tokens equal for same account')
+      assert.deepEqual(
+        tokensFirst,
+        initialTokensFirst,
+        'tokens equal for same account',
+      )
+      assert.deepEqual(
+        tokensSecond,
+        initialTokensSecond,
+        'tokens equal for same account',
+      )
     })
   })
 
@@ -353,14 +373,26 @@ describe('preferences controller', function () {
       await preferencesController.addToken('0xb', 'D', 5)
       const initialTokensSecond = preferencesController.getTokens()
 
-      assert.notDeepEqual(initialTokensFirst, initialTokensSecond, 'tokens not equal for different networks and tokens')
+      assert.notDeepEqual(
+        initialTokensFirst,
+        initialTokensSecond,
+        'tokens not equal for different networks and tokens',
+      )
 
       network.providerStore.updateState({ type: 'mainnet' })
       const tokensFirst = preferencesController.getTokens()
       network.providerStore.updateState({ type: 'rinkeby' })
       const tokensSecond = preferencesController.getTokens()
-      assert.deepEqual(tokensFirst, initialTokensFirst, 'tokens equal for same network')
-      assert.deepEqual(tokensSecond, initialTokensSecond, 'tokens equal for same network')
+      assert.deepEqual(
+        tokensFirst,
+        initialTokensFirst,
+        'tokens equal for same network',
+      )
+      assert.deepEqual(
+        tokensSecond,
+        initialTokensSecond,
+        'tokens equal for same network',
+      )
     })
   })
 
@@ -372,7 +404,10 @@ describe('preferences controller', function () {
       req = { params: {} }
       res = {}
       asy = { next: sandbox.spy(), end: sandbox.spy() }
-      stubHandleWatchAssetERC20 = sandbox.stub(preferencesController, '_handleWatchAssetERC20')
+      stubHandleWatchAssetERC20 = sandbox.stub(
+        preferencesController,
+        '_handleWatchAssetERC20',
+      )
     })
     after(function () {
       sandbox.restore()
@@ -431,16 +466,26 @@ describe('preferences controller', function () {
       const image = 'someimage'
       req.params.options = { address, symbol, decimals, image }
 
-      sandbox.stub(preferencesController, '_validateERC20AssetParams').returns(true)
+      sandbox
+        .stub(preferencesController, '_validateERC20AssetParams')
+        .returns(true)
       preferencesController.openPopup = async () => undefined
 
       await preferencesController._handleWatchAssetERC20(req.params.options)
       const suggested = preferencesController.getSuggestedTokens()
-      assert.equal(Object.keys(suggested).length, 1, `one token added ${Object.keys(suggested)}`)
+      assert.equal(
+        Object.keys(suggested).length,
+        1,
+        `one token added ${Object.keys(suggested)}`,
+      )
 
       assert.equal(suggested[address].address, address, 'set address correctly')
       assert.equal(suggested[address].symbol, symbol, 'set symbol correctly')
-      assert.equal(suggested[address].decimals, decimals, 'set decimals correctly')
+      assert.equal(
+        suggested[address].decimals,
+        decimals,
+        'set decimals correctly',
+      )
       assert.equal(suggested[address].image, image, 'set image correctly')
     })
 
@@ -451,7 +496,9 @@ describe('preferences controller', function () {
       const image = 'someimage'
       req.params.options = { address, symbol, decimals, image }
 
-      sandbox.stub(preferencesController, '_validateERC20AssetParams').returns(true)
+      sandbox
+        .stub(preferencesController, '_validateERC20AssetParams')
+        .returns(true)
       preferencesController.openPopup = async () => {
         await preferencesController.addToken(address, symbol, decimals, image)
       }
@@ -470,14 +517,64 @@ describe('preferences controller', function () {
     it('should validate ERC20 asset correctly', async function () {
       const validate = preferencesController._validateERC20AssetParams
 
-      assert.doesNotThrow(() => validate({ rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07', symbol: 'ABC', decimals: 0 }))
-      assert.throws(() => validate({ symbol: 'ABC', decimals: 0 }), 'missing address should fail')
-      assert.throws(() => validate({ rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07', decimals: 0 }), 'missing symbol should fail')
-      assert.throws(() => validate({ rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07', symbol: 'ABC' }), 'missing decimals should fail')
-      assert.throws(() => validate({ rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07', symbol: 'ABCDEFGHI', decimals: 0 }), 'invalid symbol should fail')
-      assert.throws(() => validate({ rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07', symbol: 'ABC', decimals: -1 }), 'decimals < 0 should fail')
-      assert.throws(() => validate({ rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07', symbol: 'ABC', decimals: 38 }), 'decimals > 36 should fail')
-      assert.throws(() => validate({ rawAddress: '0x123', symbol: 'ABC', decimals: 0 }), 'invalid address should fail')
+      assert.doesNotThrow(() =>
+        validate({
+          rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+          symbol: 'ABC',
+          decimals: 0,
+        }),
+      )
+      assert.throws(
+        () => validate({ symbol: 'ABC', decimals: 0 }),
+        'missing address should fail',
+      )
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            decimals: 0,
+          }),
+        'missing symbol should fail',
+      )
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: 'ABC',
+          }),
+        'missing decimals should fail',
+      )
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: 'ABCDEFGHI',
+            decimals: 0,
+          }),
+        'invalid symbol should fail',
+      )
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: 'ABC',
+            decimals: -1,
+          }),
+        'decimals < 0 should fail',
+      )
+      assert.throws(
+        () =>
+          validate({
+            rawAddress: '0xd26114cd6EE289AccF82350c8d8487fedB8A0C07',
+            symbol: 'ABC',
+            decimals: 38,
+          }),
+        'decimals > 36 should fail',
+      )
+      assert.throws(
+        () => validate({ rawAddress: '0x123', symbol: 'ABC', decimals: 0 }),
+        'invalid address should fail',
+      )
     })
   })
 
@@ -488,17 +585,25 @@ describe('preferences controller', function () {
     })
 
     it('should set the forgottenPassword property in state', function () {
-      assert.equal(preferencesController.store.getState().forgottenPassword, false)
+      assert.equal(
+        preferencesController.store.getState().forgottenPassword,
+        false,
+      )
 
       preferencesController.setPasswordForgotten(true)
 
-      assert.equal(preferencesController.store.getState().forgottenPassword, true)
+      assert.equal(
+        preferencesController.store.getState().forgottenPassword,
+        true,
+      )
     })
   })
 
   describe('#updateRpc', function () {
     it('should update the rpcDetails properly', function () {
-      preferencesController.store.updateState({ frequentRpcListDetail: [{}, { rpcUrl: 'test' }, {}] })
+      preferencesController.store.updateState({
+        frequentRpcListDetail: [{}, { rpcUrl: 'test' }, {}],
+      })
       preferencesController.updateRpc({ rpcUrl: 'test', chainId: '1' })
       preferencesController.updateRpc({ rpcUrl: 'test/1', chainId: '1' })
       preferencesController.updateRpc({ rpcUrl: 'test/2', chainId: '1' })
@@ -512,18 +617,54 @@ describe('preferences controller', function () {
     it('should add custom RPC url to state', function () {
       preferencesController.addToFrequentRpcList('rpc_url', '1')
       preferencesController.addToFrequentRpcList('http://localhost:8545', '1')
-      assert.deepEqual(preferencesController.store.getState().frequentRpcListDetail, [{ rpcUrl: 'rpc_url', chainId: '1', ticker: 'ETH', nickname: '', rpcPrefs: {} }])
+      assert.deepEqual(
+        preferencesController.store.getState().frequentRpcListDetail,
+        [
+          {
+            rpcUrl: 'rpc_url',
+            chainId: '1',
+            ticker: 'ETH',
+            nickname: '',
+            rpcPrefs: {},
+          },
+        ],
+      )
       preferencesController.addToFrequentRpcList('rpc_url', '1')
-      assert.deepEqual(preferencesController.store.getState().frequentRpcListDetail, [{ rpcUrl: 'rpc_url', chainId: '1', ticker: 'ETH', nickname: '', rpcPrefs: {} }])
+      assert.deepEqual(
+        preferencesController.store.getState().frequentRpcListDetail,
+        [
+          {
+            rpcUrl: 'rpc_url',
+            chainId: '1',
+            ticker: 'ETH',
+            nickname: '',
+            rpcPrefs: {},
+          },
+        ],
+      )
     })
 
     it('should remove custom RPC url from state', function () {
       preferencesController.addToFrequentRpcList('rpc_url', '1')
-      assert.deepEqual(preferencesController.store.getState().frequentRpcListDetail, [{ rpcUrl: 'rpc_url', chainId: '1', ticker: 'ETH', nickname: '', rpcPrefs: {} }])
+      assert.deepEqual(
+        preferencesController.store.getState().frequentRpcListDetail,
+        [
+          {
+            rpcUrl: 'rpc_url',
+            chainId: '1',
+            ticker: 'ETH',
+            nickname: '',
+            rpcPrefs: {},
+          },
+        ],
+      )
       preferencesController.removeFromFrequentRpcList('other_rpc_url')
       preferencesController.removeFromFrequentRpcList('http://localhost:8545')
       preferencesController.removeFromFrequentRpcList('rpc_url')
-      assert.deepEqual(preferencesController.store.getState().frequentRpcListDetail, [])
+      assert.deepEqual(
+        preferencesController.store.getState().frequentRpcListDetail,
+        [],
+      )
     })
   })
 

@@ -206,7 +206,12 @@ const MODALS = {
   },
 
   GAS_PRICE_INFO_MODAL: {
-    contents: <NotifcationModal header="gasPriceNoDenom" message="gasPriceInfoModalContent" />,
+    contents: (
+      <NotifcationModal
+        header="gasPriceNoDenom"
+        message="gasPriceInfoModalContent"
+      />
+    ),
     mobileModalStyle: {
       width: '95%',
       top: getEnvironmentType() === ENVIRONMENT_TYPE_POPUP ? '52vh' : '36.5vh',
@@ -218,7 +223,9 @@ const MODALS = {
   },
 
   GAS_LIMIT_INFO_MODAL: {
-    contents: <NotifcationModal header="gasLimit" message="gasLimitInfoModalContent" />,
+    contents: (
+      <NotifcationModal header="gasLimit" message="gasLimitInfoModalContent" />
+    ),
     mobileModalStyle: {
       width: '95%',
       top: getEnvironmentType() === ENVIRONMENT_TYPE_POPUP ? '52vh' : '36.5vh',
@@ -386,14 +393,14 @@ const BACKDROPSTYLE = {
   backgroundColor: 'rgba(0, 0, 0, 0.5)',
 }
 
-function mapStateToProps (state) {
+function mapStateToProps(state) {
   return {
     active: state.appState.modal.open,
     modalState: state.appState.modal.modalState,
   }
 }
 
-function mapDispatchToProps (dispatch) {
+function mapDispatchToProps(dispatch) {
   return {
     hideModal: (customOnHideOpts) => {
       dispatch(actions.hideModal())
@@ -404,7 +411,6 @@ function mapDispatchToProps (dispatch) {
     hideWarning: () => {
       dispatch(actions.hideWarning())
     },
-
   }
 }
 
@@ -416,15 +422,15 @@ class Modal extends Component {
     modalState: PropTypes.object.isRequired,
   }
 
-  hide () {
+  hide() {
     this.modalRef.hide()
   }
 
-  show () {
+  show() {
     this.modalRef.show()
   }
 
-  UNSAFE_componentWillReceiveProps (nextProps, _) {
+  UNSAFE_componentWillReceiveProps(nextProps, _) {
     if (nextProps.active) {
       this.show()
     } else if (this.props.active) {
@@ -432,10 +438,11 @@ class Modal extends Component {
     }
   }
 
-  render () {
+  render() {
     const modal = MODALS[this.props.modalState.name || 'DEFAULT']
     const { contents: children, disableBackdropClick = false } = modal
-    const modalStyle = modal[isMobileView() ? 'mobileModalStyle' : 'laptopModalStyle']
+    const modalStyle =
+      modal[isMobileView() ? 'mobileModalStyle' : 'laptopModalStyle']
     const contentStyle = modal.contentStyle || {}
 
     return (

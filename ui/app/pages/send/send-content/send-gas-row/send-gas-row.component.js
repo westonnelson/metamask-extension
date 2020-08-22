@@ -6,7 +6,6 @@ import AdvancedGasInputs from '../../../../components/app/gas-customization/adva
 import GasFeeDisplay from './gas-fee-display/gas-fee-display.component'
 
 export default class SendGasRow extends Component {
-
   static propTypes = {
     balance: PropTypes.string,
     gasFeeError: PropTypes.bool,
@@ -34,7 +33,7 @@ export default class SendGasRow extends Component {
     metricsEvent: PropTypes.func,
   }
 
-  renderAdvancedOptionsButton () {
+  renderAdvancedOptionsButton() {
     const { metricsEvent } = this.context
     const { showCustomizeGasModal, isMainnet } = this.props
     // Tests should behave in same way as mainnet, but are using Localhost
@@ -55,12 +54,12 @@ export default class SendGasRow extends Component {
           showCustomizeGasModal()
         }}
       >
-        { this.context.t('advancedOptions') }
+        {this.context.t('advancedOptions')}
       </div>
     )
   }
 
-  setMaxAmount () {
+  setMaxAmount() {
     const {
       balance,
       gasTotal,
@@ -77,7 +76,7 @@ export default class SendGasRow extends Component {
     })
   }
 
-  renderContent () {
+  renderContent() {
     const {
       gasLoadingError,
       gasTotal,
@@ -116,7 +115,7 @@ export default class SendGasRow extends Component {
             }
           }}
         />
-        { this.renderAdvancedOptionsButton() }
+        {this.renderAdvancedOptionsButton()}
       </div>
     )
     const gasFeeDisplay = (
@@ -135,15 +134,19 @@ export default class SendGasRow extends Component {
     const advancedGasInputs = (
       <div>
         <AdvancedGasInputs
-          updateCustomGasPrice={(newGasPrice) => setGasPrice(newGasPrice, gasLimit)}
-          updateCustomGasLimit={(newGasLimit) => setGasLimit(newGasLimit, gasPrice)}
+          updateCustomGasPrice={(newGasPrice) =>
+            setGasPrice(newGasPrice, gasLimit)
+          }
+          updateCustomGasLimit={(newGasLimit) =>
+            setGasLimit(newGasLimit, gasPrice)
+          }
           customGasPrice={gasPrice}
           customGasLimit={gasLimit}
           insufficientBalance={insufficientBalance}
           customPriceIsSafe
           isSpeedUp={false}
         />
-        { this.renderAdvancedOptionsButton() }
+        {this.renderAdvancedOptionsButton()}
       </div>
     )
     // Tests should behave in same way as mainnet, but are using Localhost
@@ -155,7 +158,7 @@ export default class SendGasRow extends Component {
     return gasFeeDisplay
   }
 
-  render () {
+  render() {
     const { gasFeeError } = this.props
 
     return (
@@ -164,9 +167,8 @@ export default class SendGasRow extends Component {
         showError={gasFeeError}
         errorType="gasFee"
       >
-        { this.renderContent() }
+        {this.renderContent()}
       </SendRowWrapper>
     )
   }
-
 }

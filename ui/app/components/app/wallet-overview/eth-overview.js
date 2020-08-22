@@ -13,7 +13,11 @@ import Tooltip from '../../ui/tooltip'
 import UserPreferencedCurrencyDisplay from '../user-preferenced-currency-display'
 import { PRIMARY, SECONDARY } from '../../../helpers/constants/common'
 import { showModal } from '../../../store/actions'
-import { isBalanceCached, getSelectedAccount, getShouldShowFiat } from '../../../selectors/selectors'
+import {
+  isBalanceCached,
+  getSelectedAccount,
+  getShouldShowFiat,
+} from '../../../selectors/selectors'
 import PaperAirplane from '../../ui/icon/paper-airplane-icon'
 import WalletOverview from './wallet-overview'
 
@@ -42,8 +46,12 @@ const EthOverview = ({ className }) => {
 
   return (
     <WalletOverview
-      balance={(
-        <Tooltip position="top" title={t('balanceOutdated')} disabled={!balanceIsCached}>
+      balance={
+        <Tooltip
+          position="top"
+          title={t('balanceOutdated')}
+          disabled={!balanceIsCached}
+        >
           <div className="eth-overview__balance">
             <div className="eth-overview__primary-container">
               <UserPreferencedCurrencyDisplay
@@ -56,29 +64,27 @@ const EthOverview = ({ className }) => {
                 ethNumberOfDecimals={4}
                 hideTitle
               />
-              {
-                balanceIsCached ? <span className="eth-overview__cached-star">*</span> : null
-              }
+              {balanceIsCached ? (
+                <span className="eth-overview__cached-star">*</span>
+              ) : null}
             </div>
-            {
-              showFiat && (
-                <UserPreferencedCurrencyDisplay
-                  className={classnames({
-                    'eth-overview__cached-secondary-balance': balanceIsCached,
-                    'eth-overview__secondary-balance': !balanceIsCached,
-                  })}
-                  data-testid="eth-overview__secondary-currency"
-                  value={balance}
-                  type={SECONDARY}
-                  ethNumberOfDecimals={4}
-                  hideTitle
-                />
-              )
-            }
+            {showFiat && (
+              <UserPreferencedCurrencyDisplay
+                className={classnames({
+                  'eth-overview__cached-secondary-balance': balanceIsCached,
+                  'eth-overview__secondary-balance': !balanceIsCached,
+                })}
+                data-testid="eth-overview__secondary-currency"
+                value={balance}
+                type={SECONDARY}
+                ethNumberOfDecimals={4}
+                hideTitle
+              />
+            )}
           </div>
         </Tooltip>
-      )}
-      buttons={(
+      }
+      buttons={
         <>
           <Button
             type="primary"
@@ -89,7 +95,7 @@ const EthOverview = ({ className }) => {
               dispatch(showModal({ name: 'DEPOSIT_ETHER' }))
             }}
           >
-            { t('buy') }
+            {t('buy')}
           </Button>
           <Button
             type="secondary"
@@ -102,10 +108,10 @@ const EthOverview = ({ className }) => {
             }}
             data-testid="eth-overview-send"
           >
-            { t('send') }
+            {t('send')}
           </Button>
         </>
-      )}
+      }
       className={className}
       icon={<Identicon diameter={32} />}
     />

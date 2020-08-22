@@ -30,31 +30,31 @@ const TokenOverview = ({ className, token }) => {
   const assetImages = useSelector(getAssetImages)
   const { tokensWithBalances } = useTokenTracker([token])
   const balance = tokensWithBalances[0]?.string
-  const formattedFiatBalance = useTokenFiatAmount(token.address, balance, token.symbol)
+  const formattedFiatBalance = useTokenFiatAmount(
+    token.address,
+    balance,
+    token.symbol,
+  )
 
   return (
     <WalletOverview
-      balance={(
+      balance={
         <div className="token-overview__balance">
           <CurrencyDisplay
             className="token-overview__primary-balance"
             displayValue={balance}
             suffix={token.symbol}
           />
-          {
-            formattedFiatBalance
-              ? (
-                <CurrencyDisplay
-                  className="token-overview__secondary-balance"
-                  displayValue={formattedFiatBalance}
-                  hideLabel
-                />
-              )
-              : null
-          }
+          {formattedFiatBalance ? (
+            <CurrencyDisplay
+              className="token-overview__secondary-balance"
+              displayValue={formattedFiatBalance}
+              hideLabel
+            />
+          ) : null}
         </div>
-      )}
-      buttons={(
+      }
+      buttons={
         <Button
           type="secondary"
           className="token-overview__button"
@@ -66,17 +66,17 @@ const TokenOverview = ({ className, token }) => {
             history.push(SEND_ROUTE)
           }}
         >
-          { t('send') }
+          {t('send')}
         </Button>
-      )}
+      }
       className={className}
-      icon={(
+      icon={
         <Identicon
           diameter={32}
           address={token.address}
           image={assetImages[token.address]}
         />
-      )}
+      }
     />
   )
 }

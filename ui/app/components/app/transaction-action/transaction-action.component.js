@@ -15,7 +15,7 @@ export default class TransactionAction extends PureComponent {
     methodData: PropTypes.object,
   }
 
-  getTransactionAction () {
+  getTransactionAction() {
     const { transaction, methodData } = this.props
     const { name } = methodData
 
@@ -26,14 +26,17 @@ export default class TransactionAction extends PureComponent {
     return methodName || action || ''
   }
 
-  render () {
+  render() {
     const { className } = this.props
 
     const action = this.getTransactionAction()
 
     return (
-      <div className={classnames('transaction-action', className)} title={action}>
-        { action }
+      <div
+        className={classnames('transaction-action', className)}
+        title={action}
+      >
+        {action}
       </div>
     )
   }

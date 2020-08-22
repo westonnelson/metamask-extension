@@ -9,10 +9,7 @@ const positionArrowClassMap = {
   right: 'info-tooltip__right-tooltip-arrow',
 }
 
-export default function InfoTooltip ({
-  contentText = '',
-  position = '',
-}) {
+export default function InfoTooltip({ contentText = '', position = '' }) {
   return (
     <div className="info-tooltip">
       <Tooltip

@@ -12,10 +12,7 @@ describe('NetworkController', function () {
     }
 
     beforeEach(function () {
-      nock('https://rinkeby.infura.io')
-        .persist()
-        .post('/metamask')
-        .reply(200)
+      nock('https://rinkeby.infura.io').persist().post('/metamask').reply(200)
 
       networkController = new NetworkController()
     })
@@ -27,7 +24,8 @@ describe('NetworkController', function () {
     describe('#provider', function () {
       it('provider should be updatable without reassignment', function () {
         networkController.initializeProvider(networkControllerProviderConfig)
-        const providerProxy = networkController.getProviderAndBlockTracker().provider
+        const providerProxy = networkController.getProviderAndBlockTracker()
+          .provider
         assert.equal(providerProxy.test, undefined)
         providerProxy.setTarget({ test: true })
         assert.equal(providerProxy.test, true)
@@ -71,40 +69,52 @@ describe('NetworkController', function () {
         {
           input: '3',
           expected: 'Ropsten',
-        }, {
+        },
+        {
           input: '4',
           expected: 'Rinkeby',
-        }, {
+        },
+        {
           input: '42',
           expected: 'Kovan',
-        }, {
+        },
+        {
           input: '0x3',
           expected: 'Ropsten',
-        }, {
+        },
+        {
           input: '0x4',
           expected: 'Rinkeby',
-        }, {
+        },
+        {
           input: '0x2a',
           expected: 'Kovan',
-        }, {
+        },
+        {
           input: 'ropsten',
           expected: 'Ropsten',
-        }, {
+        },
+        {
           input: 'rinkeby',
           expected: 'Rinkeby',
-        }, {
+        },
+        {
           input: 'kovan',
           expected: 'Kovan',
-        }, {
+        },
+        {
           input: 'mainnet',
           expected: 'Main Ethereum Network',
-        }, {
+        },
+        {
           input: 'goerli',
           expected: 'Goerli',
         },
       ]
 
-      tests.forEach(({ input, expected }) => assert.equal(getNetworkDisplayName(input), expected))
+      tests.forEach(({ input, expected }) =>
+        assert.equal(getNetworkDisplayName(input), expected),
+      )
     })
   })
 })

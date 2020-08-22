@@ -1,10 +1,17 @@
 import { useSelector } from 'react-redux'
 import { getKnownMethodData } from '../selectors/selectors'
-import { getTransactionActionKey, getStatusKey } from '../helpers/utils/transactions.util'
+import {
+  getTransactionActionKey,
+  getStatusKey,
+} from '../helpers/utils/transactions.util'
 import { camelCaseToCapitalize } from '../helpers/utils/common.util'
 import { PRIMARY, SECONDARY } from '../helpers/constants/common'
 import { getTokenAddressParam } from '../helpers/utils/token-util'
-import { formatDateWithYearContext, shortenAddress, stripHttpSchemes } from '../helpers/utils/util'
+import {
+  formatDateWithYearContext,
+  shortenAddress,
+  stripHttpSchemes,
+} from '../helpers/utils/util'
 import {
   CONTRACT_INTERACTION_KEY,
   DEPLOY_CONTRACT_ACTION_KEY,
@@ -52,7 +59,7 @@ import { useTokenData } from './useTokenData'
  * @param {Object} transactionGroup group of transactions
  * @return {TransactionDisplayData}
  */
-export function useTransactionDisplayData (transactionGroup) {
+export function useTransactionDisplayData(transactionGroup) {
   const knownTokens = useSelector(getTokens)
   const t = useI18nContext()
   const { initialTransaction, primaryTransaction } = transactionGroup
@@ -62,7 +69,10 @@ export function useTransactionDisplayData (transactionGroup) {
   const { from: senderAddress, to } = initialTransaction.txParams || {}
 
   // for smart contract interactions, methodData can be used to derive the name of the action being taken
-  const methodData = useSelector((state) => getKnownMethodData(state, initialTransaction?.txParams?.data)) || {}
+  const methodData =
+    useSelector((state) =>
+      getKnownMethodData(state, initialTransaction?.txParams?.data),
+    ) || {}
 
   const actionKey = getTransactionActionKey(initialTransaction)
   const status = getStatusKey(primaryTransaction)
@@ -84,12 +94,27 @@ export function useTransactionDisplayData (transactionGroup) {
   // transfers, we pass an additional argument to these hooks that will be
   // false for non-token transactions. This additional argument forces the
   // hook to return null
-  const token = isTokenCategory && knownTokens.find(({ address }) => address === recipientAddress)
-  const tokenData = useTokenData(initialTransaction?.txParams?.data, isTokenCategory)
-  const tokenDisplayValue = useTokenDisplayValue(initialTransaction?.txParams?.data, token, isTokenCategory)
-  const tokenFiatAmount = useTokenFiatAmount(token?.address, tokenDisplayValue, token?.symbol)
+  const token =
+    isTokenCategory &&
+    knownTokens.find(({ address }) => address === recipientAddress)
+  const tokenData = useTokenData(
+    initialTransaction?.txParams?.data,
+    isTokenCategory,
+  )
+  const tokenDisplayValue = useTokenDisplayValue(
+    initialTransaction?.txParams?.data,
+    token,
+    isTokenCategory,
+  )
+  const tokenFiatAmount = useTokenFiatAmount(
+    token?.address,
+    tokenDisplayValue,
+    token?.symbol,
+  )
 
-  const origin = stripHttpSchemes(initialTransaction.origin || initialTransaction.msgParams?.origin || '')
+  const origin = stripHttpSchemes(
+    initialTransaction.origin || initialTransaction.msgParams?.origin || '',
+  )
 
   let category
   let title
@@ -109,9 +134,15 @@ export function useTransactionDisplayData (transactionGroup) {
     title = t('approveSpendLimit', [token?.symbol || t('token')])
     subtitle = origin
     subtitleContainsOrigin = true
-  } else if (transactionCategory === DEPLOY_CONTRACT_ACTION_KEY || transactionCategory === CONTRACT_INTERACTION_KEY) {
+  } else if (
+    transactionCategory === DEPLOY_CONTRACT_ACTION_KEY ||
+    transactionCategory === CONTRACT_INTERACTION_KEY
+  ) {
     category = TRANSACTION_CATEGORY_INTERACTION
-    title = (methodData?.name && camelCaseToCapitalize(methodData.name)) || (actionKey && t(actionKey)) || ''
+    title =
+      (methodData?.name && camelCaseToCapitalize(methodData.name)) ||
+      (actionKey && t(actionKey)) ||
+      ''
     subtitle = origin
     subtitleContainsOrigin = true
   } else if (transactionCategory === INCOMING_TRANSACTION) {
@@ -119,7 +150,10 @@ export function useTransactionDisplayData (transactionGroup) {
     title = t('receive')
     prefix = ''
     subtitle = t('fromAddress', [shortenAddress(senderAddress)])
-  } else if (transactionCategory === TOKEN_METHOD_TRANSFER_FROM || transactionCategory === TOKEN_METHOD_TRANSFER) {
+  } else if (
+    transactionCategory === TOKEN_METHOD_TRANSFER_FROM ||
+    transactionCategory === TOKEN_METHOD_TRANSFER
+  ) {
     category = TRANSACTION_CATEGORY_SEND
     title = t('sendSpecifiedTokens', [token?.symbol || t('token')])
     recipientAddress = getTokenAddressParam(tokenData)
@@ -156,7 +190,8 @@ export function useTransactionDisplayData (transactionGroup) {
     primaryCurrency,
     senderAddress,
     recipientAddress,
-    secondaryCurrency: isTokenCategory && !tokenFiatAmount ? undefined : secondaryCurrency,
+    secondaryCurrency:
+      isTokenCategory && !tokenFiatAmount ? undefined : secondaryCurrency,
     status,
     isPending: status in PENDING_STATUS_HASH,
   }
