@@ -9,3 +9,4 @@ coverage/
 
 app/scripts/chromereload.js
 app/vendor/**
+test/e2e/send-eth-with-private-key-test/**
