@@ -422,6 +422,7 @@ export default class MetamaskController extends EventEmitter {
    */
   getApi () {
     const {
+      approvalController,
       keyringController,
       networkController,
       onboardingController,
@@ -562,6 +563,10 @@ export default class MetamaskController extends EventEmitter {
       addPermittedAccount: nodeify(permissionsController.addPermittedAccount, permissionsController),
       removePermittedAccount: nodeify(permissionsController.removePermittedAccount, permissionsController),
       requestAccountsPermissionWithId: nodeify(permissionsController.requestAccountsPermissionWithId, permissionsController),
+
+      // approval controller
+      resolvePendingApproval: approvalController.resolve.bind(approvalController),
+      rejectPendingApproval: approvalController.reject.bind(approvalController),
     }
   }
 
