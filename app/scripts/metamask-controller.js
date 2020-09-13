@@ -312,8 +312,8 @@ export default class MetamaskController extends EventEmitter {
       PermissionsController: this.permissionsController.permissions,
       PermissionsMetadata: this.permissionsController.store,
       ThreeBoxController: this.threeBoxController.store,
-      // ENS Controller
       EnsController: this.ensController.store,
+      ApprovalController: this.approvalController.store,
     })
     this.memStore.subscribe(this.sendUpdate.bind(this))
 
