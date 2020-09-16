@@ -15,7 +15,7 @@ export default function setupWeb3 (log) {
   // export web3 as a global, checking for usage
   let reloadInProgress = false
   let lastTimeUsed
-  let lastSeenNetwork
+  let previousChainId
   let hasBeenWarned = false
 
   const web3 = new Web3(window.ethereum)
@@ -75,7 +75,7 @@ export default function setupWeb3 (log) {
     value: web3Proxy,
   })
 
-  window.ethereum._publicConfigStore.subscribe((state) => {
+  window.ethereum.on('chainChanged', (currentChainId) => {
     // if the auto refresh on network change is false do not
     // do anything
     if (!window.ethereum.autoRefreshOnNetworkChange) {
@@ -87,11 +87,9 @@ export default function setupWeb3 (log) {
       return
     }
 
-    const currentNetwork = state.networkVersion
-
-    // set the initial network
-    if (!lastSeenNetwork) {
-      lastSeenNetwork = currentNetwork
+    // set the initial chain
+    if (!previousChainId) {
+      previousChainId = currentChainId
       return
     }
 
@@ -100,8 +98,8 @@ export default function setupWeb3 (log) {
       return
     }
 
-    // if network did not change, exit
-    if (currentNetwork === lastSeenNetwork) {
+    // if chain did not change, exit
+    if (currentChainId === previousChainId) {
       return
     }
 
@@ -110,16 +108,11 @@ export default function setupWeb3 (log) {
     const timeSinceUse = Date.now() - lastTimeUsed
     // if web3 was recently used then delay the reloading of the page
     if (timeSinceUse > 500) {
-      triggerReset()
+      window.location.reload()
     } else {
-      setTimeout(triggerReset, 500)
+      setTimeout(window.location.reload, 500)
     }
   })
-}
-
-// reload the page
-function triggerReset () {
-  global.location.reload()
 }
 
 /**

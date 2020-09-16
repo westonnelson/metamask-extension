@@ -2142,6 +2142,20 @@
   resolved "https://registry.yarnpkg.com/@metamask/forwarder/-/forwarder-1.1.0.tgz#13829d8244bbf19ea658c0b20d21a77b67de0bdd"
   integrity sha512-Hggj4y0QIjDzKGTXzarhEPIQyFSB2bi2y6YLJNwaT4JmP30UB5Cj6gqoY0M4pj3QT57fzp0BUuGp7F/AUe28tw==
 
+"@metamask/inpage-provider@MetaMask/inpage-provider#delete-public-config-stream":
+  version "7.0.0"
+  resolved "https://codeload.github.com/MetaMask/inpage-provider/tar.gz/36d8b97191a1ad6d96b047441085fcfd3082b698"
+  dependencies:
+    eth-rpc-errors "^2.1.1"
+    fast-deep-equal "^2.0.1"
+    is-stream "^2.0.0"
+    json-rpc-engine "^5.2.0"
+    json-rpc-middleware-stream "^2.1.1"
+    obj-multiplex "^1.0.0"
+    obs-store "^4.0.3"
+    pump "^3.0.0"
+    safe-event-emitter "^1.0.1"
+
 "@metamask/inpage-provider@^6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@metamask/inpage-provider/-/inpage-provider-6.1.0.tgz#6a4ec9437169b6d6f2b439dd7a2e604ebcfc2fca"

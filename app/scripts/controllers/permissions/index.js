@@ -34,6 +34,7 @@ export class PermissionsController {
       notifyAllDomains,
       preferences,
       showPermissionRequest,
+      getProviderState,
     } = {},
     restoredPermissions = {},
     restoredState = {},
@@ -50,6 +51,7 @@ export class PermissionsController {
     this._notifyDomain = notifyDomain
     this._notifyAllDomains = notifyAllDomains
     this._showPermissionRequest = showPermissionRequest
+    this._getProviderState = getProviderState
 
     this._restrictedMethods = getRestrictedMethods({
       getKeyringAccounts: this.getKeyringAccounts.bind(this),
@@ -94,6 +96,7 @@ export class PermissionsController {
     engine.push(createPermissionsMethodMiddleware({
       addDomainMetadata: this.addDomainMetadata.bind(this),
       getAccounts: this.getAccounts.bind(this, origin),
+      getProviderState: this._getProviderState,
       getUnlockPromise: () => this._getUnlockPromise(true),
       hasPermission: this.hasPermission.bind(this, origin),
       notifyAccountsChanged: this.notifyAccountsChanged.bind(this, origin),

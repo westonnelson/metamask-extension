@@ -7,6 +7,7 @@ import { ethErrors } from 'eth-json-rpc-errors'
 export default function createPermissionsMethodMiddleware ({
   addDomainMetadata,
   getAccounts,
+  getProviderState,
   getUnlockPromise,
   hasPermission,
   notifyAccountsChanged,
@@ -17,7 +18,7 @@ export default function createPermissionsMethodMiddleware ({
 
   return createAsyncMiddleware(async (req, res, next) => {
 
-    let responseHandler
+    let accounts, responseHandler
 
     switch (req.method) {
 
@@ -46,7 +47,7 @@ export default function createPermissionsMethodMiddleware ({
         }
 
         // first, just try to get accounts
-        let accounts = await getAccounts()
+        accounts = await getAccounts()
         if (accounts.length > 0) {
           res.result = accounts
           return
@@ -75,6 +76,15 @@ export default function createPermissionsMethodMiddleware ({
 
         return
       }
+
+      case 'wallet_getProviderState':
+
+        accounts = await getAccounts()
+        res.result = {
+          ...getProviderState(),
+          accounts,
+        }
+        return
 
       // custom method for getting metadata from the requesting domain,
       // sent automatically by the inpage provider when it's initialized
