@@ -198,7 +198,6 @@ export default class MetamaskController extends EventEmitter {
       notifyAllDomains: this.notifyAllConnections.bind(this),
       preferences: this.preferencesController.store,
       showPermissionRequest: opts.showPermissionRequest,
-      getProviderState: this.getProviderState.bind(this),
     }, initState.PermissionsController, initState.PermissionsMetadata)
 
     this.detectTokensController = new DetectTokensController({
@@ -1614,6 +1613,7 @@ export default class MetamaskController extends EventEmitter {
     }))
     engine.push(createMethodMiddleware({
       origin,
+      getProviderState: this.getProviderState.bind(this),
       sendMetrics: this.sendBackgroundMetaMetrics.bind(this),
     }))
     // filter and subscription polyfills

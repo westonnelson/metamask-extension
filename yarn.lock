@@ -2142,30 +2142,15 @@
   resolved "https://registry.yarnpkg.com/@metamask/forwarder/-/forwarder-1.1.0.tgz#13829d8244bbf19ea658c0b20d21a77b67de0bdd"
   integrity sha512-Hggj4y0QIjDzKGTXzarhEPIQyFSB2bi2y6YLJNwaT4JmP30UB5Cj6gqoY0M4pj3QT57fzp0BUuGp7F/AUe28tw==
 
-"@metamask/inpage-provider@MetaMask/inpage-provider#delete-public-config-stream":
+"@metamask/inpage-provider@MetaMask/inpage-provider#delete-public-config":
   version "7.0.0"
-  resolved "https://codeload.github.com/MetaMask/inpage-provider/tar.gz/36d8b97191a1ad6d96b047441085fcfd3082b698"
+  resolved "https://codeload.github.com/MetaMask/inpage-provider/tar.gz/b0eca1357271b2b55db77db2d0e33bc5af882563"
   dependencies:
     eth-rpc-errors "^2.1.1"
     fast-deep-equal "^2.0.1"
     is-stream "^2.0.0"
     json-rpc-engine "^5.2.0"
     json-rpc-middleware-stream "^2.1.1"
-    obj-multiplex "^1.0.0"
-    obs-store "^4.0.3"
-    pump "^3.0.0"
-    safe-event-emitter "^1.0.1"
-
-"@metamask/inpage-provider@^6.1.0":
-  version "6.1.0"
-  resolved "https://registry.yarnpkg.com/@metamask/inpage-provider/-/inpage-provider-6.1.0.tgz#6a4ec9437169b6d6f2b439dd7a2e604ebcfc2fca"
-  integrity sha512-Sgl+kHyJCTkyWzNKIX18/O+CJUMWlc5jWB27p3NBfA/r1ldr87n7wdJhK9VnHrKZ2GMJtwBmtuE9Do+mLIKHXA==
-  dependencies:
-    eth-json-rpc-errors "^2.0.2"
-    fast-deep-equal "^2.0.1"
-    json-rpc-engine "^5.1.5"
-    json-rpc-middleware-stream "^2.1.1"
-    loglevel "^1.6.1"
     obj-multiplex "^1.0.0"
     obs-store "^4.0.3"
     pump "^3.0.0"
@@ -16097,7 +16082,7 @@ json-rpc-engine@^3.4.0, json-rpc-engine@^3.6.0:
     promise-to-callback "^1.0.0"
     safe-event-emitter "^1.0.1"
 
-json-rpc-engine@^5.1.3, json-rpc-engine@^5.1.5:
+json-rpc-engine@^5.1.3:
   version "5.1.8"
   resolved "https://registry.yarnpkg.com/json-rpc-engine/-/json-rpc-engine-5.1.8.tgz#5ba0147ce571899bbaa7133ffbc05317c34a3c7f"
   integrity sha512-vTBSDEPJV1fPAsbm2g5sEuPjsgLdiab2f1CTn2PyRr8nxggUpA996PDlNQDsM0gnrA99F8KIBLq2nIKrOFl1Mg==
@@ -17764,11 +17749,6 @@ loglevel@^1.4.1, loglevel@^1.5.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.0.tgz#ae0caa561111498c5ba13723d6fb631d24003934"
   integrity sha1-rgyqVhERSYxboTcj1vtjHSQAOTQ=
-
-loglevel@^1.6.1:
-  version "1.6.8"
-  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.8.tgz#8a25fb75d092230ecd4457270d80b54e28011171"
-  integrity sha512-bsU7+gc9AJ2SqpzxwU3+1fedl8zAntbtC5XYlt3s2j1hJcn2PsXSmgN8TaLG/J1/2mod4+cE/3vNL70/c1RNCA==
 
 logplease@^1.2.14, logplease@~1.2.14, logplease@~1.2.15:
   version "1.2.15"

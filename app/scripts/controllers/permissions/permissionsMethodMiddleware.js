@@ -7,7 +7,6 @@ import { ethErrors } from 'eth-json-rpc-errors'
 export default function createPermissionsMethodMiddleware ({
   addDomainMetadata,
   getAccounts,
-  getProviderState,
   getUnlockPromise,
   hasPermission,
   notifyAccountsChanged,
@@ -76,15 +75,6 @@ export default function createPermissionsMethodMiddleware ({
 
         return
       }
-
-      case 'wallet_getProviderState':
-
-        accounts = await getAccounts()
-        res.result = {
-          ...getProviderState(),
-          accounts,
-        }
-        return
 
       // custom method for getting metadata from the requesting domain,
       // sent automatically by the inpage provider when it's initialized
