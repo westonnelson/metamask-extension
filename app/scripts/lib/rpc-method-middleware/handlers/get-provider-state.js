@@ -1,7 +1,9 @@
 import { MESSAGE_TYPE } from '../../enums'
 
 /**
- * This RPC method
+ * This RPC method gets background state relevant to the provider.
+ * The background sends RPC notifications on state changes, but the provider
+ * first requests state on initialization.
  */
 
 const getProviderState = {
@@ -19,8 +21,8 @@ export default getProviderState
 
 /**
  * @typedef {Object} GetProviderStateOptions
- * @property {() => GetProviderStateResult} getProviderState - A function that gets the current
- * provider state.
+ * @property {() => GetProviderStateResult} getProviderState - A function that
+ * gets the current provider state.
  */
 
 /**

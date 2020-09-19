@@ -453,6 +453,7 @@ export class PermissionsController {
       throw new Error('Invalid accounts', newAccounts)
     }
 
+    // We do not share accounts when the extension is locked.
     if (this._isUnlocked()) {
       this._notifyDomain(origin, {
         method: NOTIFICATION_NAMES.accountsChanged,

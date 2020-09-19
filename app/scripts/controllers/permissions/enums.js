@@ -19,9 +19,6 @@ export const CAVEAT_TYPES = {
   filterResponse: 'filterResponse',
 }
 
-/**
- * All notification names.
- */
 export const NOTIFICATION_NAMES = {
   accountsChanged: 'wallet_accountsChanged',
   unlockStateChanged: 'wallet_unlockStateChanged',

@@ -1683,9 +1683,8 @@ export default class MetamaskController extends EventEmitter {
    * Causes the RPC engines associated with the connections to the given origin
    * to emit a notification event with the given payload.
    *
-   * Does nothing if the extension is locked, unless the notification pertains
-   * to the lock/unlock state of the extension, indicated by the method
-   * wallet_unlockStateChanged.
+   * The caller is responsible for ensuring that only permitted notifications
+   * are sent.
    *
    * Ignores unknown origins.
    *
@@ -1706,9 +1705,8 @@ export default class MetamaskController extends EventEmitter {
    * Causes the RPC engines associated with all connections to emit a
    * notification event with the given payload.
    *
-   * Does nothing if the extension is locked, unless the notification pertains
-   * to the lock/unlock state of the extension, indicated by the method
-   * wallet_unlockStateChanged.
+   * The caller is responsible for ensuring that only permitted notifications
+   * are sent.
    *
    * @param {any} payload - The event payload.
    */
@@ -1743,7 +1741,7 @@ export default class MetamaskController extends EventEmitter {
 
   /**
    * Handle global unlock, triggered by KeyringController unlock.
-   * Notifies all connections that the extension is locked.
+   * Notifies all connections that the extension is unlocked.
    */
   _onUnlock () {
     this.notifyAllConnections({
