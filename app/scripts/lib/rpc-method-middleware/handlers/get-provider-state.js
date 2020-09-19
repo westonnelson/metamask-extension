@@ -11,15 +11,16 @@ const getProviderState = {
 export default getProviderState
 
 /**
- * @typedef {Object} GetProviderStateOptions
- * @property {Function} getProviderState - A function that gets the current
- * provider state.
+ * @typedef {Object} GetProviderStateResult
+ * @property {string} chainId - The current chain ID.
+ * @property {boolean} isUnlocked - Whether the extension is unlocked or not.
+ * @property {string} networkVersion - The current network ID.
  */
 
 /**
- * @typedef {Object} GetProviderStateResult
- * @property {string} action - The action taken (get or set).
- * @property {string} name - The window.web3 property name subject to the action.
+ * @typedef {Object} GetProviderStateOptions
+ * @property {() => GetProviderStateResult} getProviderState - A function that gets the current
+ * provider state.
  */
 
 /**

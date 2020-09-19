@@ -30,6 +30,7 @@ export class PermissionsController {
       getKeyringAccounts,
       getRestrictedMethods,
       getUnlockPromise,
+      isUnlocked,
       notifyDomain,
       notifyAllDomains,
       preferences,
@@ -50,6 +51,7 @@ export class PermissionsController {
     this._notifyDomain = notifyDomain
     this._notifyAllDomains = notifyAllDomains
     this._showPermissionRequest = showPermissionRequest
+    this._isUnlocked = isUnlocked
 
     this._restrictedMethods = getRestrictedMethods({
       getKeyringAccounts: this.getKeyringAccounts.bind(this),
@@ -451,17 +453,19 @@ export class PermissionsController {
       throw new Error('Invalid accounts', newAccounts)
     }
 
-    this._notifyDomain(origin, {
-      method: NOTIFICATION_NAMES.accountsChanged,
-      result: newAccounts,
-    })
+    if (this._isUnlocked()) {
+      this._notifyDomain(origin, {
+        method: NOTIFICATION_NAMES.accountsChanged,
+        result: newAccounts,
+      })
 
-    // if the accounts changed from the perspective of the dapp,
-    // update "last seen" time for the origin and account(s)
-    // exception: no accounts -> no times to update
-    this.permissionsLog.updateAccountsHistory(
-      origin, newAccounts,
-    )
+      // if the accounts changed from the perspective of the dapp,
+      // update "last seen" time for the origin and account(s)
+      // exception: no accounts -> no times to update
+      this.permissionsLog.updateAccountsHistory(
+        origin, newAccounts,
+      )
+    }
 
     // NOTE:
     // we don't check for accounts changing in the notifyAllDomains case,
@@ -501,6 +505,8 @@ export class PermissionsController {
    */
   clearPermissions () {
     this.permissions.clearDomains()
+    // It's safe to notify that no accounts to available, regardless of
+    // extension lock state
     this._notifyAllDomains({
       method: NOTIFICATION_NAMES.accountsChanged,
       result: [],

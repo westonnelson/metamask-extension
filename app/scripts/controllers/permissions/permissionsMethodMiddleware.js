@@ -17,7 +17,7 @@ export default function createPermissionsMethodMiddleware ({
 
   return createAsyncMiddleware(async (req, res, next) => {
 
-    let accounts, responseHandler
+    let responseHandler
 
     switch (req.method) {
 
@@ -46,7 +46,7 @@ export default function createPermissionsMethodMiddleware ({
         }
 
         // first, just try to get accounts
-        accounts = await getAccounts()
+        let accounts = await getAccounts()
         if (accounts.length > 0) {
           res.result = accounts
           return

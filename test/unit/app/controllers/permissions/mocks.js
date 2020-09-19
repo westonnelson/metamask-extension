@@ -33,8 +33,6 @@ const keyringAccounts = deepFreeze([
   '0xcc74c7a59194e5d9268476955650d1e285be703c',
 ])
 
-const getKeyringAccounts = async () => [...keyringAccounts]
-
 const getIdentities = () => {
   return keyringAccounts.reduce(
     (identities, address, index) => {
@@ -67,8 +65,6 @@ const getRestrictedMethods = (permController) => {
   }
 }
 
-const getUnlockPromise = () => Promise.resolve()
-
 /**
  * Gets default mock constructor options for a permissions controller.
  *
@@ -76,10 +72,10 @@ const getUnlockPromise = () => Promise.resolve()
  */
 export function getPermControllerOpts () {
   return {
-    showPermissionRequest: noop,
-    getKeyringAccounts,
-    getUnlockPromise,
+    getKeyringAccounts: async () => [...keyringAccounts],
+    getUnlockPromise: () => Promise.resolve(),
     getRestrictedMethods,
+    isUnlocked: () => true,
     notifyDomain: noop,
     notifyAllDomains: noop,
     preferences: {
@@ -91,6 +87,7 @@ export function getPermControllerOpts () {
       },
       subscribe: noop,
     },
+    showPermissionRequest: noop,
   }
 }
 

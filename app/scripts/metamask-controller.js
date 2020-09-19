@@ -50,7 +50,6 @@ import DetectTokensController from './controllers/detect-tokens'
 import { PermissionsController } from './controllers/permissions'
 import {
   NOTIFICATION_NAMES,
-  SAFE_NOTIFICATIONS,
 } from './controllers/permissions/enums'
 import getRestrictedMethods from './controllers/permissions/restrictedMethods'
 import nodeify from './lib/nodeify'
@@ -194,6 +193,7 @@ export default class MetamaskController extends EventEmitter {
       getKeyringAccounts: this.keyringController.getAccounts.bind(this.keyringController),
       getRestrictedMethods,
       getUnlockPromise: this.appStateController.getUnlockPromise.bind(this.appStateController),
+      isUnlocked: this.isUnlocked.bind(this),
       notifyDomain: this.notifyConnections.bind(this),
       notifyAllDomains: this.notifyAllConnections.bind(this),
       preferences: this.preferencesController.store,
@@ -1693,18 +1693,13 @@ export default class MetamaskController extends EventEmitter {
    * @param {any} payload - The event payload.
    */
   notifyConnections (origin, payload) {
-
     const connections = this.connections[origin]
-    if (
-      !connections || !this.isUnlocked() ||
-      !SAFE_NOTIFICATIONS.has(payload.method)
-    ) {
-      return
-    }
 
-    Object.values(connections).forEach((conn) => {
-      conn.engine && conn.engine.emit('notification', payload)
-    })
+    if (connections) {
+      Object.values(connections).forEach((conn) => {
+        conn.engine && conn.engine.emit('notification', payload)
+      })
+    }
   }
 
   /**
@@ -1718,11 +1713,6 @@ export default class MetamaskController extends EventEmitter {
    * @param {any} payload - The event payload.
    */
   notifyAllConnections (payload) {
-
-    if (!this.isUnlocked() && !SAFE_NOTIFICATIONS.has(payload.method)) {
-      return
-    }
-
     Object.values(this.connections).forEach((origin) => {
       Object.values(origin).forEach((conn) => {
         conn.engine && conn.engine.emit('notification', payload)

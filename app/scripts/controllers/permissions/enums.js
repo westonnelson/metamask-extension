@@ -28,15 +28,6 @@ export const NOTIFICATION_NAMES = {
   chainChanged: 'wallet_chainChanged',
 }
 
-/**
- * Notifications that should be sent regardless of whether
- * the extension is locked or the domain is permitted.
- */
-export const SAFE_NOTIFICATIONS = new Set([
-  NOTIFICATION_NAMES.unlockStateChanged,
-  NOTIFICATION_NAMES.chainChanged,
-])
-
 export const LOG_IGNORE_METHODS = [
   'wallet_sendDomainMetadata',
 ]
